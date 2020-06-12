@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="3dp"
+    android:elevation="3dp"
+    app:cardElevation="3dp"
+    android:padding="3dp"
+    android:layout_margin="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/online_icon_friend"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/online_icon"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/offline_icon_friend"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/offline_icon"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.050000012" />
+        <!--    <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/friend_pic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:src="@drawable/user_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"/>-->
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/friend_pic"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:padding="5dp"
+            app:actualImageScaleType="fitCenter"
+            app:roundAsCircle="true"
+            app:placeholderImage="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/friend_fname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:maxLength="20"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/friend_pic"
+            app:layout_constraintTop_toTopOf="@+id/friend_pic"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/friend_gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/friend_fname"
+            app:layout_constraintStart_toStartOf="@+id/friend_fname"
+            app:layout_constraintTop_toBottomOf="@+id/friend_fname"
+            tools:text="Gender" />
+
+        <TextView
+            android:id="@+id/friend_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLength="33"
+            android:padding="2dp"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/friend_gender"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/friend_gender"
+            app:layout_constraintTop_toBottomOf="@+id/friend_gender"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Username" />
+
+        <!-- <Button
+             android:id="@+id/send_req_btn"
+             android:layout_width="0dp"
+             android:layout_height="35dp"
+             android:layout_margin="2dp"
+             android:background="@color/colorPrimary"
+             android:text="Send Request"
+             android:textColor="@color/icons"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="@id/friend_username"
+             app:layout_constraintStart_toStartOf="@id/friend_username"
+             app:layout_constraintTop_toBottomOf="@id/friend_username" />
+ -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

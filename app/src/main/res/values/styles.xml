@@ -1,0 +1,64 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="NavigationTheme" parent="AppTheme">
+        <item name="listPreferredItemHeightSmall">60dp
+        </item><!-- menu item height- vary as u need -->
+    </style>
+
+    <style name="ItemTextSize" parent="AppTheme">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+
+    <style name="MyCardViewDesign" parent="Widget.MaterialComponents.CardView">
+        <item name="android:layout_margin">2dp</item>
+        <item name="cardCornerRadius">3dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="android:padding">3dp</item>
+    </style>
+
+    <style name="LogoTheme">
+        <item name="android:textSize">25dp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="AcceptButtonStyle">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColor">@color/icons</item>
+    </style>
+
+    <style name="CancelButtonStyle">
+        <item name="colorPrimary">@color/red</item>
+        <item name="android:textColor">@color/icons</item>
+
+    </style>
+
+    <style name="SentButtonStyle">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/icons</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+
+</resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "956698440221",
+    "firebase_url": "https://mychatapp-28cf9.firebaseio.com",
+    "project_id": "mychatapp-28cf9",
+    "storage_bucket": "mychatapp-28cf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956698440221:android:43c53a08c3d4eacddc0cf4",
+        "android_client_info": {
+          "package_name": "com.dragontelnet.mychatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956698440221-1tgpket1a342ne6fq9grmfcvs5crkbo1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dragontelnet.mychatapp",
+            "certificate_hash": "594ea4502db61404fd00296c018654c50edfbad1"
+          }
+        },
+        {
+          "client_id": "956698440221-paddl887rhtj693q8o4rsf0cfhkrdvhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuPZMV_9_wU0FDjB1RBhf37N5cPMAGbPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956698440221-paddl887rhtj693q8o4rsf0cfhkrdvhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.activities.commentsviewer.view.CommentsViewerActivity"
+    tools:showIn="@layout/activity_comments_viewer">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/comment_content_et"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/comment_layout" />
+
+    <TextView
+        android:id="@+id/comment_na_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Comments Available!!"
+        android:textSize="19dp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/comment_content_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_layout"
+        android:padding="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/comment_btn"
+        app:layout_constraintStart_toStartOf="@+id/comments_rv"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/comment_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_content_et"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/comment_content_et" />
+</androidx.constraintlayout.widget.ConstraintLayout>

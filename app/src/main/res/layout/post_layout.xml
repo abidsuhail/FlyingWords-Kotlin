@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    style="@style/MyCardViewDesign"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp">
+
+        <include
+            android:id="@+id/post_top_include"
+            layout="@layout/post_top_include"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/divider1"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:orientation="horizontal"
+            android:background="@color/divider"
+            android:layout_marginTop="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/post_top_include"
+            app:layout_constraintStart_toStartOf="@+id/post_top_include"
+            app:layout_constraintTop_toBottomOf="@+id/post_top_include" />
+
+        <include
+            android:id="@+id/post_content_include"
+            layout="@layout/post_content_include"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            app:layout_constraintEnd_toEndOf="@+id/divider1"
+            app:layout_constraintStart_toStartOf="@+id/divider1" />
+
+        <include
+            android:id="@+id/post_react_include"
+            layout="@layout/post_react_include"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="@+id/post_content_include"
+            app:layout_constraintStart_toStartOf="@+id/post_content_include"
+            app:layout_constraintTop_toBottomOf="@+id/post_content_include" />
+
+        <include
+            layout="@layout/post_last_comment_include"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/post_react_include"
+            app:layout_constraintStart_toStartOf="@+id/post_react_include"
+            app:layout_constraintTop_toBottomOf="@+id/post_react_include" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/MyCardViewDesign"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/seen_item_profile_pic"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:padding="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeholderImage="@drawable/user_male_placeholder"
+            app:roundAsCircle="true"
+            app:roundedCornerRadius="3dp" />
+
+        <TextView
+            android:id="@+id/seen_item_fname"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/seen_item_profile_pic"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Abid Suhail" />
+
+        <TextView
+            android:id="@+id/seen_item_date_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="@+id/seen_item_fname"
+            app:layout_constraintStart_toEndOf="@+id/seen_item_profile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/seen_item_fname"
+            tools:text="25March,6:43PM" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

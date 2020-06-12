@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MyCardViewDesign">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/story_constraint_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/profile_pic"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp"
+            fresco:placeholderImage="@android:color/darker_gray"
+            fresco:roundAsCircle="true"
+            fresco:roundedCornerRadius="2dp"
+            fresco:roundingBorderWidth="3dp"
+            fresco:roundingBorderColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/full_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic"
+            app:layout_constraintTop_toTopOf="@+id/profile_pic"
+            tools:text="Abid Suhail"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="date"
+            android:textSize="12dp"
+            android:padding="3dp"
+            app:layout_constraintStart_toEndOf="@+id/profile_pic"
+            app:layout_constraintTop_toBottomOf="@+id/full_name_tv"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="time"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/full_name_tv"
+            app:layout_constraintStart_toEndOf="@+id/date_tv"
+            app:layout_constraintTop_toBottomOf="@+id/full_name_tv"
+            android:visibility="gone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

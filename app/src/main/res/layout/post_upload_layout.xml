@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/caption_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:inputType="textMultiLine"
+        android:hint="Caption"
+        android:minLines="2"
+        app:layout_constraintEnd_toStartOf="@+id/upload_camera_ib"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/upload_camera_ib"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
+        android:padding="8dp"
+        android:layout_margin="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/caption_et"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_camera" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/selected_post_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:viewAspectRatio="1"
+        android:visibility="gone"
+        app:placeholderImage="@drawable/user_male_placeholder"
+        app:layout_constraintEnd_toEndOf="@+id/upload_camera_ib"
+        app:layout_constraintStart_toStartOf="@+id/caption_et"
+        app:layout_constraintTop_toBottomOf="@+id/caption_et" />
+
+    <Button
+        android:id="@+id/upload_post_btn"
+        style="@style/AcceptButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        app:layout_constraintEnd_toEndOf="@+id/selected_post_pic"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/selected_post_pic"
+        app:layout_constraintTop_toBottomOf="@+id/selected_post_pic" />
+</androidx.constraintlayout.widget.ConstraintLayout>
