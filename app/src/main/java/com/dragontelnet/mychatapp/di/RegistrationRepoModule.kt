@@ -1,6 +1,6 @@
 package com.dragontelnet.mychatapp.di
 
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.RegistrationDetailsActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.RegistrationDetailsActivityRepo
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

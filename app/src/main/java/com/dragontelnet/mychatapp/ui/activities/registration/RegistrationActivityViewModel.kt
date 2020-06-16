@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.RegistrationDetailsActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.RegistrationDetailsActivityRepo
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.utils.MyDaggerInjection
 import com.google.firebase.storage.StorageReference

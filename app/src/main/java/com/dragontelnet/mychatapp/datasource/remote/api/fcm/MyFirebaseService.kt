@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -16,20 +17,26 @@ import com.dragontelnet.mychatapp.ui.activities.main.MainActivity
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
 import com.dragontelnet.mychatapp.utils.firestore.DeviceTokenMap
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
+import com.facebook.common.executors.UiThreadImmediateExecutorService
+import com.facebook.common.references.CloseableReference
+import com.facebook.datasource.DataSource
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber
+import com.facebook.imagepipeline.image.CloseableImage
+import com.facebook.imagepipeline.request.ImageRequest
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
+
 class MyFirebaseService : FirebaseMessagingService() {
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "onMessageReceived: " + remoteMessage.data)
         if (MySharedPrefs.getReceiverNotification(applicationContext)) {
             val data = remoteMessage.data
-            setChannel(data)
-            Log.d(TAG, "onMessageReceived: do receive is true")
+            setUpNotifProfilePic(data)
         } else {
-            Log.d(TAG, "onMessageReceived: do receive is false")
-
             //play only notification  sound
             try {
                 val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -50,30 +57,49 @@ class MyFirebaseService : FirebaseMessagingService() {
         }
     }
 
-    private fun setChannel(data: Map<String, String>) {
+    private fun setChannel(data: Map<String, String>, bitmap: Bitmap?) {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "1294"
             val channel = NotificationChannel(
                     channelId,
-                    "Channel human readable title",
+                    "FlyingWords",
                     NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
-            //notificationBuilder.setChannelId(channelId);
         }
-        notificationManager.notify(0 /* ID of notification */, getNotification(data))
+        notificationManager.notify(0 /* ID of notification */, getNotification(data, bitmap))
     }
 
-    private fun getNotification(data: Map<String, String>): Notification {
+    private fun setUpNotifProfilePic(data: MutableMap<String, String>) {
+        val imageRequest = ImageRequest.fromUri(data["profileImg"])
+        val imagePipeline = Fresco.getImagePipeline()
+        val dataSource = imagePipeline.fetchDecodedImage(imageRequest, null)
+        dataSource.subscribe(object : BaseBitmapDataSubscriber() {
+            override fun onFailureImpl(dataSource: DataSource<CloseableReference<CloseableImage>>) {
+                setChannel(data, null)
+            }
+
+            override fun onNewResultImpl(bitmap: Bitmap?) {
+                setChannel(data, bitmap)
+            }
+        }, UiThreadImmediateExecutorService.getInstance())
+    }
+
+    private fun getNotification(data: Map<String, String>, bitmap: Bitmap?): Notification {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        return NotificationCompat.Builder(this, "1294")
-                .setSmallIcon(R.mipmap.ic_launcher)
+        val builder = NotificationCompat.Builder(this, "1294")
+                .setSmallIcon(R.drawable.ic_logo)
                 .setContentTitle(data["title"])
                 .setContentText(data["content"])
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
-                .build()
+        return if (bitmap != null) {
+            builder.setLargeIcon(bitmap)
+                    .build()
+        } else {
+            builder.build()
+        }
     }
 
     /* Request code */
@@ -87,22 +113,19 @@ class MyFirebaseService : FirebaseMessagingService() {
 
     override fun onNewToken(s: String) {
         super.onNewToken(s)
-        Log.d(TAG, "onNewToken: outside $s")
-
         //save uid in shared prefs
         //called when app starts,doesnt depend on authorization
         if (getCurrentUser() != null) {
             Log.d(TAG, "onNewToken: $s")
             val deviceTokenMap = DeviceTokenMap(s)
             MyFirestoreDbRefs.allUsersCollection.document(getCurrentUser()!!.uid)
-                    .set(deviceTokenMap.toMap(), SetOptions.merge()).addOnSuccessListener { aVoid: Void? ->
+                    .set(deviceTokenMap.toMap(), SetOptions.merge()).addOnSuccessListener {
                         val user = MySharedPrefs.getCurrentOfflineUserFromBook
                         user?.deviceToken = deviceTokenMap.deviceToken
                         MySharedPrefs.putUserObjToBook(user)
                     }
         } else {
             Log.d(TAG, "onNewToken: user is null")
-            //Toast.makeText(this, "user is null", Toast.LENGTH_SHORT).show();
         }
     }
 

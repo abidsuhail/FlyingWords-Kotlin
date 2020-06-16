@@ -97,7 +97,7 @@ object MyFirestoreDbRefs {
     fun getNotificationCollectionRef(userUid: String?): CollectionReference {
         return rootRef
                 .collection(FirestoreCollection.NOTIFICATIONS_COLLECTION)
-                .document(FirestoreCollection.POST_IDS_COLLECTION)
+                .document(FirestoreCollection.USERS_IDS)
                 .collection(userUid!!)
     }
 

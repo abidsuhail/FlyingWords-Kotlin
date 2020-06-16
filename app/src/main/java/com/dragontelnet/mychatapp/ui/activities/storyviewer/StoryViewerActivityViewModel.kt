@@ -2,7 +2,7 @@ package com.dragontelnet.mychatapp.ui.activities.storyviewer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.StoryViewerActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.StoryViewerActivityRepo
 import com.dragontelnet.mychatapp.model.entity.Story
 import com.dragontelnet.mychatapp.model.entity.StoryItem
 

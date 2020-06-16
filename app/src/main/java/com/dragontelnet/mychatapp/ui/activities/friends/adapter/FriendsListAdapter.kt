@@ -8,8 +8,8 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.User
-import com.dragontelnet.mychatapp.ui.activities.friends.FriendsActivity
 import com.dragontelnet.mychatapp.ui.activities.friends.adapter.viewholder.FriendVH
+import com.dragontelnet.mychatapp.ui.activities.friends.view.FriendsActivity
 import com.dragontelnet.mychatapp.ui.activities.messaging.view.MessagingActivity
 
 class FriendsListAdapter(private val friendsProgress: ProgressBar,

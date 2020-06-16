@@ -11,9 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dragontelnet.mychatapp.R
-import com.dragontelnet.mychatapp.datasource.remote.repository.fragmentsrepos.FeedsFragmentRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos.FeedsFragmentRepo
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.ui.activities.commentsviewer.view.CommentsViewerActivity
+import com.dragontelnet.mychatapp.ui.activities.likers.view.LikersActivity
 import com.dragontelnet.mychatapp.ui.fragments.home.adapter.viewholder.PostVH
 import com.dragontelnet.mychatapp.ui.fragments.home.view.FeedsFragment
 import com.dragontelnet.mychatapp.ui.fragments.home.viewmodel.FeedsFragmentViewModel
@@ -81,12 +82,24 @@ class FeedsListAdapter(options: FirestorePagingOptions<Post>,
                     //deleting post
                     mViewModel.deletePost(updatedPost).observe(feedsFragment, Observer { isDelSuccess ->
                         if (isDelSuccess) {
-                            Toast.makeText(feedsFragment.context, "Post deleted!!!,refresh for update changes", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(feedsFragment.context, "Post deleted!!!", Toast.LENGTH_SHORT).show()
+                            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                                refresh()
+                                //notifyItemRemoved(holder.adapterPosition)
+                            }
                         }
                     })
                     true
                 }
                 popUp.show()
+            }
+        }
+
+        holder.mLikesCountTv.setOnClickListener {
+            if (updatedPost.likersUids?.size!! > 0) {
+                val likersIntent = Intent(feedsFragment.context, LikersActivity::class.java)
+                likersIntent.putExtra("post", updatedPost)
+                feedsFragment.startActivity(likersIntent)
             }
         }
     }

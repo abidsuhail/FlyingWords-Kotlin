@@ -15,9 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.activities.likers.view.LikersActivity"
+            android:label="@string/title_activity_likers"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".ui.activities.messaging.view.MessagingActivity" />
         <activity
-            android:name=".ui.activities.friends.FriendsActivity"
+            android:name=".ui.activities.friends.view.FriendsActivity"
             android:label="Friends" />
         <activity
             android:name=".ui.activities.postdetailsview.PostDetailsViewActivity"

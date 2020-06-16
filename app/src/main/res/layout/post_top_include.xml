@@ -27,6 +27,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Abid Suhail" />
 
+    <TextView
+        android:id="@+id/post_date_time_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_full_name"
+        app:layout_constraintStart_toEndOf="@+id/user_profile_pic"
+        app:layout_constraintTop_toBottomOf="@+id/user_full_name"
+        tools:text="12:35AM" />
+
     <ImageButton
         android:id="@+id/edit_post_btn"
         android:layout_width="wrap_content"

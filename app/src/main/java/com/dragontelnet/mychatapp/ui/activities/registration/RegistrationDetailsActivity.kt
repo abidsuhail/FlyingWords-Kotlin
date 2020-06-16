@@ -161,10 +161,10 @@ class RegistrationDetailsActivity : AppCompatActivity() {
             if (fullName.isNotBlank() && fullName.isNotBlank() && fullName.isNotBlank() && city.isNotBlank()) {
                 if (fullName.length > 2) {
                     //setting full name and username to instance variable
-                    mFullNameStr = fullName
+                    mFullNameStr = fullName.capitalize()
                     mUserNameStr = userName
-                    mBioStr = bio
-                    mCityStr = city
+                    mBioStr = bio.capitalize()
+                    mCityStr = city.capitalize()
 
                     if (isEditing) {
                         //update user to db

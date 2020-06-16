@@ -65,7 +65,7 @@ class FeedsFragment : Fragment() {
     }
 
     private fun checkFeedsEmptiness() {
-        mViewModel?.checkFeedsEmptiness(feedsQuery)?.observe(this, Observer { isEmpty ->
+        mViewModel?.checkFeedsEmptiness(feedsQuery)?.observe(viewLifecycleOwner, Observer { isEmpty ->
             if (isEmpty) {
                 feedsEmptyCheckerTv.visibility = View.VISIBLE
             } else {
@@ -120,7 +120,16 @@ class FeedsFragment : Fragment() {
         super.onDestroy()
         adapter?.stopListening()
         adapter = null
-        mViewModel?.removeAllListeners()
+        mViewModel?.removeFeedsCheckerListener()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            mViewModel?.removeFeedsCheckerListener()
+        } else {
+            checkFeedsEmptiness()
+        }
     }
 
     companion object {
@@ -130,7 +139,7 @@ class FeedsFragment : Fragment() {
         private const val TYPE_POST_WITHOUT_PHOTO = 3
         const val LIKED_TAG = "LIKED"
         const val NOT_LIKED_TAG = "NOT_LIKED"
-        val UPLOADED_REQ_CODE = 123
-        val ADDED_LIKE_COMMENT_REQ_CODE = 456
+        const val UPLOADED_REQ_CODE = 123
+        const val ADDED_LIKE_COMMENT_REQ_CODE = 456
     }
 }

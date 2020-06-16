@@ -2,7 +2,7 @@ package com.dragontelnet.mychatapp.ui.activities.commentsviewer.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.CommentsViewerRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.CommentsViewerRepo
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.model.entity.User
 import com.google.firebase.firestore.Query

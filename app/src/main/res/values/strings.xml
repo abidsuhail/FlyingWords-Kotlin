@@ -25,4 +25,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_post_details_view">Post</string>
     <string name="title_notification">Notifications</string>
+    <string name="title_activity_likers">Likes</string>
 </resources>

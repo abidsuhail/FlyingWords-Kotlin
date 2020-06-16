@@ -3,7 +3,7 @@ package com.dragontelnet.mychatapp.ui.activities.profile.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.ProfileActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.ProfileActivityRepo
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.utils.MyDaggerInjection
 import javax.inject.Inject

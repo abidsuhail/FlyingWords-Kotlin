@@ -1,7 +1,7 @@
 package com.dragontelnet.mychatapp.di
 
 import android.content.Context
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.VerificationActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.VerificationActivityRepo
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

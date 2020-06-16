@@ -11,6 +11,7 @@ class MyConstants {
 
     interface FirestoreCollection {
         companion object {
+            const val USERS_IDS: String = "users_ids"
             const val REGISTERED_USERS_COLLECTION = "reg_users"
             const val ALL_LOCS_COLLECTION = "all_locs"
             const val CHATS_COLLECTION = "chats"

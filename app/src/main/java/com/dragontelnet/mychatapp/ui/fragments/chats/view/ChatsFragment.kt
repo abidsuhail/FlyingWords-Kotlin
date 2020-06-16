@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.dragontelnet.mychatapp.R
-import com.dragontelnet.mychatapp.ui.activities.friends.FriendsActivity
+import com.dragontelnet.mychatapp.ui.activities.friends.view.FriendsActivity
 import com.dragontelnet.mychatapp.ui.fragments.chats.adapter.ChatsListAdapter
 import com.dragontelnet.mychatapp.ui.fragments.chats.viewmodel.ChatsFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_chats.*

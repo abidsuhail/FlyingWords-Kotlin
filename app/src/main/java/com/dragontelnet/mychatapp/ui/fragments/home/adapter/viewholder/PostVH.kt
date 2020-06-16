@@ -32,6 +32,8 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var mLastCommentOwnerName: TextView = itemView.findViewById(R.id.last_comment_owner_name)
     var mLastComment: TextView = itemView.findViewById(R.id.last_comment)
     var mCaptionTv: TextView = itemView.findViewById(R.id.caption_tv)
+    var mPostDateTimeTv: TextView = itemView.findViewById(R.id.post_date_time_tv)
+
     var mPostContentInclude: View = itemView.findViewById(R.id.post_content_include)
 
     fun bindUserDetails(holder: PostVH, updatedPost: Post, mViewModel: FeedsFragmentViewModel, feedsFragment: FeedsFragment) {
@@ -82,6 +84,7 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bindPostDetails(holder: PostVH, updatedPost: Post, mViewModel: FeedsFragmentViewModel, feedsFragment: FeedsFragment) {
         holder.mPostContentInclude.visibility = View.GONE //this contains set of post photo and caption
+        holder.mPostDateTimeTv.text = updatedPost.dateTime?.date + " " + updatedPost.dateTime?.time
         if (updatedPost.postPhotoUrl != "") {
             holder.mPostContentInclude.visibility = View.VISIBLE
             holder.mPostPhoto.visibility = View.VISIBLE

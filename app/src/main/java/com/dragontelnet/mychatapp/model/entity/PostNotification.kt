@@ -7,6 +7,7 @@ data class PostNotification(var notifId: String?,
                             var postOwnerProfilePic: String?,
                             var notifOwnerName: String?,
                             var notifOwnerProfilePic: String?,
+                            var notifOwnerGender: String?,
                             var postId: String?,
                             var status: String?,
                             var content: String?,
@@ -16,7 +17,7 @@ data class PostNotification(var notifId: String?,
                             var dateTime: DateTime?,
                             var commentContent: String) {
 
-    constructor() : this("", "", "", "", "", "", "", "", "", "", "", "", null, null, "")
+    constructor() : this("", "", "", "", "", "", "", "", "", "", "", "", "", null, null, "")
 
     companion object {
         const val LIKE_TYPE = "liked"
@@ -27,7 +28,7 @@ data class PostNotification(var notifId: String?,
     }
 
     override fun hashCode(): Int {
-        return postByUid.hashCode()
+        return notifId.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {

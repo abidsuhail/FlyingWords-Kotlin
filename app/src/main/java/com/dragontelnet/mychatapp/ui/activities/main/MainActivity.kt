@@ -22,7 +22,7 @@ import butterknife.ButterKnife
 import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.datasource.local.MySharedPrefs
 import com.dragontelnet.mychatapp.model.entity.User
-import com.dragontelnet.mychatapp.ui.activities.friends.FriendsActivity
+import com.dragontelnet.mychatapp.ui.activities.friends.view.FriendsActivity
 import com.dragontelnet.mychatapp.ui.activities.login.LoginActivity
 import com.dragontelnet.mychatapp.ui.activities.profile.view.ProfileActivity
 import com.dragontelnet.mychatapp.ui.activities.registration.RegistrationDetailsActivity
@@ -153,20 +153,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_drawer_logout -> {
                 startLogoutProcess()
-                drawerLayout.closeDrawer(GravityCompat.START)
-                val progressDialog = ProgressDialog(this)
-                progressDialog.setMessage("Logging out....")
-                progressDialog.setCancelable(false)
-                progressDialog.setCanceledOnTouchOutside(false)
-                progressDialog.show()
-
-                clearLocalData()
-
-                mViewModel?.setUserState(FirestoreKeys.OFFLINE)?.observe(this, Observer {
-                    progressDialog.dismiss()
-                    FirebaseAuth.getInstance().signOut()
-                    startLoginActivity()
-                })
                 return true
             }
             R.id.navigation_drawer_settings -> {

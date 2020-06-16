@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.fragmentsrepos.StoryFragmentRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos.StoryFragmentRepo
 import com.dragontelnet.mychatapp.model.entity.Story
 import com.dragontelnet.mychatapp.model.entity.User
 import com.google.firebase.storage.StorageReference

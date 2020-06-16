@@ -67,7 +67,8 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(query: String): Boolean {
-                getSearchingOptions(query)?.let {
+                val capitalizeQuery = query.capitalize()
+                getSearchingOptions(capitalizeQuery)?.let {
                     adapter?.updateOptions(it)
                     return true
                 } ?: run {
@@ -96,6 +97,8 @@ class SearchFragment : Fragment() {
     private fun getSearchingOptions(query: String): FirestorePagingOptions<User>? {
         if (query.isNotBlank()) {
             if (query[0].isLetterOrDigit()) {
+                //checking first letter
+
                 return if (query[0].isDigit()) {
                     //is digit like 1,2.....etc
                     val newQuery = query.padStart(query.length + 1, '+') //adding plus '+' at starting of phone

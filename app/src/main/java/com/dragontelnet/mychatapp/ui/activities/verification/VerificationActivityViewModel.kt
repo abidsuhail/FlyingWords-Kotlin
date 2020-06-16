@@ -3,7 +3,7 @@ package com.dragontelnet.mychatapp.ui.activities.verification
 import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.VerificationActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.VerificationActivityRepo
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.utils.MyDaggerInjection.Companion.verificationRepoComp
 import com.google.firebase.auth.FirebaseUser

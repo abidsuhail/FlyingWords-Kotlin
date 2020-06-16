@@ -5,7 +5,7 @@ import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.activitiesrepos.CreatePostActivityRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.CreatePostActivityRepo
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.utils.DateTimeFactory
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser

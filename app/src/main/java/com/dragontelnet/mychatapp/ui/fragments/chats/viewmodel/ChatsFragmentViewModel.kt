@@ -3,7 +3,7 @@ package com.dragontelnet.mychatapp.ui.fragments.chats.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.dragontelnet.mychatapp.datasource.remote.repository.fragmentsrepos.ChatFragmentRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos.ChatFragmentRepo
 import com.dragontelnet.mychatapp.model.entity.Chat
 import com.dragontelnet.mychatapp.model.entity.User
 

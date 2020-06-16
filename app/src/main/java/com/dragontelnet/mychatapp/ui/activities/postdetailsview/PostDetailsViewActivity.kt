@@ -20,10 +20,11 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.datasource.local.MySharedPrefs
-import com.dragontelnet.mychatapp.datasource.remote.repository.fragmentsrepos.FeedsFragmentRepo
+import com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos.FeedsFragmentRepo
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.ui.activities.commentsviewer.view.CommentsViewerActivity
+import com.dragontelnet.mychatapp.ui.activities.likers.view.LikersActivity
 import com.dragontelnet.mychatapp.ui.fragments.home.view.FeedsFragment
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser
 import com.facebook.drawee.view.SimpleDraweeView
@@ -87,6 +88,19 @@ class PostDetailsViewActivity : AppCompatActivity() {
         }
 
         initIntentPostDetails()
+
+        setUpClickListener()
+
+    }
+
+    private fun setUpClickListener() {
+        likesTv.setOnClickListener {
+            if (intentPostObj()?.likersUids?.size!! > 0) {
+                val likersIntent = Intent(this, LikersActivity::class.java)
+                likersIntent.putExtra("post", intentPostObj())
+                startActivity(likersIntent)
+            }
+        }
     }
 
     private fun initIntentPostDetails() {

@@ -1,9 +1,7 @@
 package com.dragontelnet.mychatapp.ui.fragments.notifications.adapter
 
 import android.content.Intent
-import android.text.Html
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -33,31 +31,11 @@ class NotificationsListAdapter(private var notifsList: MutableList<PostNotificat
 
     override fun onBindViewHolder(holder: PostNotificationVH, position: Int) {
         val notification = notifsList[position]
-        if (notification.imgUrl?.isNotBlank()!!) {
-            holder.notifPic.visibility = View.VISIBLE
-            holder.notifPic.setImageURI(notification.imgUrl)
-        } else {
-            holder.notifPic.visibility = View.GONE
-        }
-        holder.notifOwnerPic.setImageURI(notification.notifOwnerProfilePic)
-        holder.notifDateTime.text = "${notification.dateTime?.date} ${notification.dateTime?.time}"
-        if (PostNotification.COMMENT_TYPE == notification.type) {
-            if (notification.imgUrl == "") {
-                val txt = Html.fromHtml("<b> ${notification.notifOwnerName} </b> commented on your status : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            } else {
-                val txt = Html.fromHtml("<b> ${notification.notifOwnerName} </b> commented on your photo : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            }
-        } else {
-            if (notification.imgUrl == "") {
-                val txt = Html.fromHtml("<b> ${notification.notifOwnerName} </b> liked your status : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            } else {
-                val txt = Html.fromHtml("<b> ${notification.notifOwnerName} </b> liked your photo : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            }
-        }
+        holder.bindNotifDetails(holder, notification)
+
+        holder.bindNotifUserDetails(holder, notification)
+
+
 
         holder.itemView.setOnClickListener {
             val i = Intent(notificationsFragment.context, PostDetailsViewActivity::class.java)
@@ -70,45 +48,22 @@ class NotificationsListAdapter(private var notifsList: MutableList<PostNotificat
                 i.putExtra("post", postNonNull)
                 notificationsFragment.startActivity(i)
             } ?: run {
-                Toast.makeText(notificationsFragment.context, "Post was deleted by post owner!!", Toast.LENGTH_SHORT).show()
-                MyFirestoreDbRefs.getNotificationCollectionRef(CurrentUser.getCurrentUser()?.uid)
-                        .document(notification.notifId!!).delete().addOnSuccessListener {
-
-                            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                                notifsList.removeAt(holder.adapterPosition)
-                                notifyItemRemoved(holder.adapterPosition)
-                            }
-                        }
+                delNotif(notification, holder)
             }
         }
-        holder.notifOwnerPic.setImageURI(notification.postOwnerProfilePic)
-        if (PostNotification.COMMENT_TYPE == notification.type) {
-            if (notification.imgUrl == "") {
-                val txt = Html.fromHtml("<b> ${notification.postOwnerName} </b> commented on your status : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            } else {
-                val txt = Html.fromHtml("<b> ${notification.postOwnerName} </b> commented on your photo : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            }
-        } else {
-            if (notification.imgUrl == "") {
-                val txt = Html.fromHtml("<b> ${notification.postOwnerName} </b> liked your status : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            } else {
-                val txt = Html.fromHtml("<b> ${notification.postOwnerName} </b> liked your photo : ${notification.commentContent}")
-                holder.notifCaption.text = txt
-            }
 
-            holder.itemView.setOnClickListener {
-                val i = Intent(notificationsFragment.context, PostDetailsViewActivity::class.java)
-                val post = notification.post
-                post?.postOwnerName = notification.postOwnerName
-                post?.postOwnerProfilePic = notification.postOwnerProfilePic
-                i.putExtra("post", post)
-                notificationsFragment.startActivity(i)
-            }
+    }
 
-        }
+    private fun delNotif(notification: PostNotification, holder: PostNotificationVH) {
 
+        Toast.makeText(notificationsFragment.context, "Post was deleted by post owner!!", Toast.LENGTH_SHORT).show()
+        MyFirestoreDbRefs.getNotificationCollectionRef(CurrentUser.getCurrentUser()?.uid)
+                .document(notification.notifId!!).delete().addOnSuccessListener {
+
+                    if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                        notifsList.removeAt(holder.adapterPosition)
+                        notifyItemRemoved(holder.adapterPosition)
+                    }
+                }
     }
 }
