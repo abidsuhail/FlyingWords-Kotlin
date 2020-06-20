@@ -30,7 +30,7 @@ class FriendRequestListAdapter(private val mViewModel: RequestsViewModel?,
 
         requestsProgress.visibility = View.GONE
         val request = friendReqList[position]
-        holder.bindUserDetails(request.user!!, holder)
+        holder.bindUserDetails(request.user, holder)
         holder.bindRequestButtons(request, holder)
         setUpOnClickListeners(request.user, holder)
 
@@ -52,7 +52,7 @@ class FriendRequestListAdapter(private val mViewModel: RequestsViewModel?,
 
     private fun setCancelBtnListener(user: User?, holder: FriendReqVH) {
         //cancel sent request
-        holder.cancelSentRequest.setOnClickListener { v: View? ->
+        holder.cancelSentRequest.setOnClickListener {
             holder.cancelSentRequest.isEnabled = false
             //decline request and cancel sent request functionality is same
             user?.uid?.let {
@@ -99,9 +99,11 @@ class FriendRequestListAdapter(private val mViewModel: RequestsViewModel?,
     }
 
     private fun startProfileActivity(user: User?) {
-        val i = Intent(requestsFragment.context, ProfileActivity::class.java)
-        i.putExtra("user", user)
-        requestsFragment.startActivity(i)
+        user?.let {
+            val i = Intent(requestsFragment.context, ProfileActivity::class.java)
+            i.putExtra("user", it)
+            requestsFragment.startActivity(i)
+        }
     }
 
 

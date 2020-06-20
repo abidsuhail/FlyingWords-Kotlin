@@ -6,8 +6,8 @@ import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
 
 //functionality is same as CancelFriendRequest
 open class DeclineRequestRepo : UnFriendRepo() {
-    private val declineEvent = SingleLiveEvent<Boolean>()
     fun declineRequest(receivedUid: String?): SingleLiveEvent<Boolean> {
+        val declineEvent = SingleLiveEvent<Boolean>()
         val delFromUserUid = MyFirestoreDbRefs.getFriendRequestsBuilderRef(receivedUid, getCurrentUser()!!.uid)
         val delFromMyUid = MyFirestoreDbRefs.getFriendRequestsBuilderRef(getCurrentUser()!!.uid, receivedUid)
 

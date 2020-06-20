@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos.CreatePostActivityRepo
 import com.dragontelnet.mychatapp.model.entity.Post
-import com.dragontelnet.mychatapp.utils.DateTimeFactory
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.DateTimeFactory
 import com.dragontelnet.mychatapp.utils.livedata.SingleMediatorLiveEvent
 import com.google.firebase.storage.StorageReference
 import java.util.*

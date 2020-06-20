@@ -7,12 +7,12 @@ import com.dragontelnet.mychatapp.model.entity.Story
 import com.dragontelnet.mychatapp.model.entity.StoryItem
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.ui.fragments.story.view.StoryFragment
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime.currentDate
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime.currentTime
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime.timeStamp
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreCollection
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime.currentDate
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime.currentTime
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime.timeStamp
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs.getAllStoriesDocumentRefOfUid
 import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
@@ -40,7 +40,7 @@ class StoryFragmentRepo : FirebaseImageUploader() {
         storiesList.add(singleStory)
 
         //create final Story entity
-        val story = Story(timeStamp, getCurrentUser()?.uid, "", "", storiesList)
+        val story = Story(timeStamp, getCurrentUser()?.uid, "", "", "", storiesList)
 
         //checking if story exists
         getAllStoriesDocumentRefOfUid(getCurrentUser()?.uid!!)
@@ -152,6 +152,7 @@ class StoryFragmentRepo : FirebaseImageUploader() {
                                         val user = ds.toObject(User::class.java)
                                         storyAdded.ownerName = user?.name
                                         storyAdded.ownerProfileUrl = user?.profilePic
+                                        storyAdded.ownerGender = user?.gender
                                         storyList.remove(storyAdded)
                                         storyList.add(storyAdded)
                                         storyListLiveData.value = storyList.toList()

@@ -60,7 +60,7 @@ class ChatsFragment : Fragment() {
 
     private fun populateChats() {
 
-        mViewModel?.getLastChatListLive()?.observe(this, Observer { chatList ->
+        mViewModel?.getLastChatListLive()?.observe(viewLifecycleOwner, Observer { chatList ->
             adapter?.updateChatList(chatList.toMutableList())
             if (chatList.isNotEmpty()) {
                 //not empty

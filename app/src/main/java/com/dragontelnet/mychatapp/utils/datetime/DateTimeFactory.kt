@@ -1,4 +1,4 @@
-package com.dragontelnet.mychatapp.utils
+package com.dragontelnet.mychatapp.utils.datetime
 
 import com.dragontelnet.mychatapp.model.entity.DateTime
 

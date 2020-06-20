@@ -5,8 +5,8 @@ import com.dragontelnet.mychatapp.datasource.remote.firebase.modules.postnotific
 import com.dragontelnet.mychatapp.model.entity.Comment
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.model.entity.PostNotification
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
 import com.google.firebase.firestore.DocumentReference

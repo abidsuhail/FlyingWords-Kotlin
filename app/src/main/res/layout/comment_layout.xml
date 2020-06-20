@@ -21,7 +21,7 @@
         android:id="@+id/comment_owner_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="2dp"
+        android:padding="3dp"
         tools:text="Abid Suhail"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/comment_owner_dp"
@@ -29,11 +29,12 @@
 
     <TextView
         android:id="@+id/comment_content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:padding="2dp"
-        tools:text="Superb pics"
+        android:padding="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/comment_owner_name"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Superb pics my name is hahaha whats going on" />
 </androidx.constraintlayout.widget.ConstraintLayout>

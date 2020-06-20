@@ -5,6 +5,7 @@ import android.util.Log
 import com.dragontelnet.mychatapp.model.entity.SeenIds
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreCollection
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs.rootRef
 import com.facebook.drawee.controller.BaseControllerListener
 import com.facebook.imagepipeline.image.ImageInfo

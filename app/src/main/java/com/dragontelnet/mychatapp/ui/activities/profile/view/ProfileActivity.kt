@@ -92,7 +92,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         ButterKnife.bind(this)
-        postsHiddenTv.text = "Posts Hidden!!\nAdd ${if (profileUser()?.gender == "male") "his" else "her"} as Friend to see posts"
+        postsHiddenTv.text = "Posts Hidden!!\nAdd ${if (profileUser()?.gender == "male") "him" else "her"} as Friend to see posts"
         buildButtonsList()
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -164,7 +164,7 @@ class ProfileActivity : AppCompatActivity() {
         //here user null check is previously checked
         userNameTv.text = "@${user.username}"
         fullNameTv.text = user.name
-        userGender.text = user.gender
+        userGender.text = user.gender?.capitalize()
         user_city.text = user.city
         user_bio.text = user.bio
 

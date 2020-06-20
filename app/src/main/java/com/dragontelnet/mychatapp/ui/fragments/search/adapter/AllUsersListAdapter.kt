@@ -17,7 +17,6 @@ class AllUsersListAdapter(options: FirestorePagingOptions<User>, private val sea
     override fun onBindViewHolder(holder: UserVH, position: Int, user: User) {
         holder.bindUserDetails(holder, user)
         holder.itemView.setOnClickListener { startProfileActivity(user) }
-        /*holder.itemView.isEnabled = user.uid != getCurrentUser()?.uid*/
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserVH {

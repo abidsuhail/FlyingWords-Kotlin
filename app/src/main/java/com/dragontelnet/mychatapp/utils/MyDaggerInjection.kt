@@ -1,6 +1,8 @@
 package com.dragontelnet.mychatapp.utils
 
 import android.app.Application
+import android.content.Intent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.dragontelnet.mychatapp.di.*
 import com.dragontelnet.mychatapp.ui.di.ContextModule
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -13,7 +15,9 @@ class MyDaggerInjection : Application() {
 
         //this is for observing app level life cycle i.e background/foreground
         //its used in ProcessObserver class
-        //ProcessLifecycleOwner.get().getLifecycle().addObserver(new ProcessObserver());
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppObserver())
+        startService(Intent(this, AppClosingService::class.java))
+
         Fresco.initialize(this)
         Paper.init(this)
         splashRepoComp = DaggerSplashRepoComponent.builder()

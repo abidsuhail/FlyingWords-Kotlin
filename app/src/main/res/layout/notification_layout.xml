@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toStartOf="@+id/notification_pic"
             app:layout_constraintStart_toEndOf="@+id/notification_owner_profile_pic"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Abid Suhail liked your " />
+            tools:text="Abid Suhail liked your" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/notification_pic"

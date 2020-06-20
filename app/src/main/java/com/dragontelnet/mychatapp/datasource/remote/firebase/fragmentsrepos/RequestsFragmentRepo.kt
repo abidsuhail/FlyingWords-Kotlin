@@ -1,6 +1,5 @@
 package com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.dragontelnet.mychatapp.datasource.remote.firebase.modules.request.RequestsRepoOperationsHandler
 import com.dragontelnet.mychatapp.model.entity.FriendRequest
@@ -21,7 +20,6 @@ class RequestsFragmentRepo : RequestsRepoOperationsHandler() {
     private lateinit var liveFriendReqSeenListener: ListenerRegistration
     private val reqListenerList: MutableList<ListenerRegistration> = mutableListOf()
     private val listenerRegistrationList: MutableList<ListenerRegistration> = mutableListOf()
-
     private val reqLiveEvent = MutableLiveData<List<FriendRequest>>()
 
 
@@ -60,21 +58,17 @@ class RequestsFragmentRepo : RequestsRepoOperationsHandler() {
     }
 
     fun removeDbListeners() {
-        reqListenerList.forEach {
-            it.remove()
-        }
+        reqListenerList.forEach { it.remove() }
+        listenerRegistrationList.forEach { it.remove() }
         reqListenerList.clear()
-
-        listenerRegistrationList.forEach {
-            it.remove()
-        }
         listenerRegistrationList.clear()
     }
 
+    private val TAG = "RequestsFragmentRepo"
     fun getRequestsListLive(): MutableLiveData<List<FriendRequest>> {
         val query: Query = myFriendRequestsListRef
         reqListListener = query.addSnapshotListener { qs, _ ->
-            if (qs != null && !qs.isEmpty && !qs.metadata.isFromCache) {
+            if (qs != null && !qs.isEmpty) {
                 val reqList = qs.toObjects(FriendRequest::class.java)
                 if (reqList.isNotEmpty()) {
                     reqList.forEach { friendRequest ->
@@ -87,7 +81,6 @@ class RequestsFragmentRepo : RequestsRepoOperationsHandler() {
                                         reqList.remove(friendRequest)
                                         reqList.add(friendRequest)
                                         reqLiveEvent.value = reqList
-                                        Log.d("dcxyz", "added full obj:" + friendRequest.sentByUid)
                                     }
                                 }
                     }

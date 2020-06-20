@@ -53,9 +53,7 @@ class CommentsViewerActivity : AppCompatActivity() {
         mViewModel = ViewModelProvider(this).get(CommentsViewerViewModel::class.java)
         commentContentEt.requestFocus()
 
-
         displayPostPic()
-
         populateComments()
     }
 

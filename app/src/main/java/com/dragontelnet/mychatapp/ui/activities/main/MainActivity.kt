@@ -26,6 +26,7 @@ import com.dragontelnet.mychatapp.ui.activities.friends.view.FriendsActivity
 import com.dragontelnet.mychatapp.ui.activities.login.LoginActivity
 import com.dragontelnet.mychatapp.ui.activities.profile.view.ProfileActivity
 import com.dragontelnet.mychatapp.ui.activities.registration.RegistrationDetailsActivity
+import com.dragontelnet.mychatapp.ui.activities.splash.SplashActivity
 import com.dragontelnet.mychatapp.ui.fragments.chats.view.ChatsFragment
 import com.dragontelnet.mychatapp.ui.fragments.home.view.HomeBaseFragment
 import com.dragontelnet.mychatapp.ui.fragments.notifications.view.NotificationsFragment
@@ -148,6 +149,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             R.id.navigation_drawer_profile -> {
                 val intent = Intent(this, ProfileActivity::class.java)
                 startActivity(intent)
+                drawerLayout.closeDrawer(GravityCompat.START)
+                return true
+            }
+            R.id.navigation_drawer_about -> {
+                startSplashAcivity()
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
             }
@@ -290,6 +296,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
+    private fun startSplashAcivity() {
+        val i = Intent(this, SplashActivity::class.java)
+        i.putExtra(SplashActivity.IS_ABOUT_NAV_CLICKED_INTENT, true)
+        startActivity(i)
+    }
+
     private fun startLogoutProcess() {
 
         AlertDialog.Builder(this)
@@ -340,15 +352,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         MySharedPrefs.getPostsBook().destroy()
     }
 
-    override fun onResume() {
+/*    override fun onResume() {
         super.onResume()
-        mViewModel?.setUserState(FirestoreKeys.ONLINE)
+        //mViewModel?.setUserState(FirestoreKeys.ONLINE)
     }
 
     override fun onPause() {
         super.onPause()
-        mViewModel?.setUserState(FirestoreKeys.OFFLINE)
-    }
+        //mViewModel?.setUserState(FirestoreKeys.OFFLINE)
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()

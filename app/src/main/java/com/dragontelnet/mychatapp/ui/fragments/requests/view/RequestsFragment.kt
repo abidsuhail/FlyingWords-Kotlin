@@ -51,9 +51,7 @@ class RequestsFragment : Fragment() {
 
     private fun populateRequestsList() {
         requestsProgress.visibility = View.VISIBLE
-
-        mViewModel?.getRequestsListLive()?.observe(this, Observer { reqList ->
-
+        mViewModel?.getRequestsListLive()?.observe(viewLifecycleOwner, Observer { reqList ->
             if (reqList.isEmpty()) {
                 //empty
                 requestErrorTv.visibility = View.VISIBLE

@@ -16,9 +16,17 @@ class CommentVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         with(user)
         {
             holder.commentOwnerName.text = name
-            holder.commentOwnerDp.setImageURI(profilePic)
+            holder.commentContent.text = comment.content
+            if (profilePic == "") {
+                if (gender == "male") {
+                    holder.commentOwnerDp.setImageResource(R.drawable.user_male_placeholder)
+                } else {
+                    holder.commentOwnerDp.setImageResource(R.drawable.user_female_placeholder)
+                }
+            } else {
+                commentOwnerDp.setImageURI(profilePic)
+            }
         }
-        holder.commentContent.text = comment.content
 
     }
 

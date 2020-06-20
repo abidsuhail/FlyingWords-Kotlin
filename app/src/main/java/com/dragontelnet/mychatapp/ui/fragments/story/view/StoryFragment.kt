@@ -105,7 +105,7 @@ class StoryFragment : Fragment() {
         //TimeUnit.MILLISECONDS.convert(1,TimeUnit.DAYS);
         adapter = AllStoriesListAdapter(emptyList(), this, mViewModel)
         storiesRv.adapter = adapter
-        mViewModel?.getMyStoriesList()?.observe(this, Observer { storyList ->
+        mViewModel?.getMyStoriesList()?.observe(viewLifecycleOwner, Observer { storyList ->
             adapter?.updateStoryList(storyList.sortedByDescending { it.timeStamp })
         })
     }

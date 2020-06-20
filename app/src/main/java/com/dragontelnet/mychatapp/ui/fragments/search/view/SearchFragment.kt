@@ -101,11 +101,12 @@ class SearchFragment : Fragment() {
 
                 return if (query[0].isDigit()) {
                     //is digit like 1,2.....etc
-                    val newQuery = query.padStart(query.length + 1, '+') //adding plus '+' at starting of phone
+                    val newQuery = "+1$query"
+                    //val newQuery = query.padStart(query.length + 1, '+') //adding plus '+' at starting of phone
                     buildPagingOptions("phone", newQuery)
                 } else {
                     //is eng. letter a,b,c...etc
-                    buildPagingOptions("name", query)
+                    buildPagingOptions("name", query.capitalize())
                 }
             } else {
                 return if (query[0] != '@') {

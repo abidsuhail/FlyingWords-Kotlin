@@ -134,9 +134,6 @@ class FeedsFragment : Fragment() {
 
     companion object {
         private const val TAG = "FeedsFragment"
-        private const val TYPE_CREATE_NEW_POST = 1
-        private const val TYPE_POST_WITH_PHOTO = 2
-        private const val TYPE_POST_WITHOUT_PHOTO = 3
         const val LIKED_TAG = "LIKED"
         const val NOT_LIKED_TAG = "NOT_LIKED"
         const val UPLOADED_REQ_CODE = 123

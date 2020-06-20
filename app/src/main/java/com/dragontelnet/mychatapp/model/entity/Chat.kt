@@ -1,7 +1,7 @@
 package com.dragontelnet.mychatapp.model.entity
 
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys.Companion.DELIVERED
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.google.firebase.firestore.ServerTimestamp
 import java.io.Serializable
 import java.util.*

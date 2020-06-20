@@ -3,8 +3,8 @@ package com.dragontelnet.mychatapp.datasource.remote.firebase.activitiesrepos
 import com.dragontelnet.mychatapp.model.entity.Story
 import com.dragontelnet.mychatapp.model.entity.StoryItem
 import com.dragontelnet.mychatapp.ui.fragments.story.view.StoryFragment
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreCollection
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
 import com.google.firebase.firestore.FieldValue

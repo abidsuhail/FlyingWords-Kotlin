@@ -11,17 +11,13 @@ class ChatsFragmentViewModel : ViewModel() {
     private val sortedChatsListEvent = MediatorLiveData<List<Chat>>()
     private val repo: ChatFragmentRepo = ChatFragmentRepo()
 
-    fun getUser(receiverUid: String): LiveData<User?> {
-        return repo.getUser(receiverUid)
-    }
-
+    fun getUser(receiverUid: String): LiveData<User?> = repo.getUser(receiverUid)
     fun removeAllListeners() {
+        sortedChatsListEvent.removeSource(repo.getLastChatListLive())
         repo.removeDbListeners()
     }
 
-    private val TAG = "ChatsFragmentViewModel"
     fun getLastChatListLive(): LiveData<List<Chat>> {
-        /*list.sortedByDescending {it.timeStamp?.time }*/
         sortedChatsListEvent.addSource(repo.getLastChatListLive()) { list ->
             val sortedChatList = list.sortedWith(compareByDescending {
                 if (it.timeStamp != null) {
@@ -34,10 +30,6 @@ class ChatsFragmentViewModel : ViewModel() {
             sortedChatsListEvent.value = sortedChatList
         }
         return sortedChatsListEvent
-    }
-
-    fun checkForOlderChatCount(): LiveData<Int?> {
-        return repo.checkForOlderChatCount()
     }
 
 }

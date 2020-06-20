@@ -1,4 +1,4 @@
-package com.dragontelnet.mychatapp.utils
+package com.dragontelnet.mychatapp.utils.datetime
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat

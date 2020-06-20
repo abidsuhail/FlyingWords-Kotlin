@@ -86,11 +86,23 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
         }
     }
 
+    private fun setUpOwnerProfilePhoto() {
+        if (story?.ownerProfileUrl == "") {
+            if (story?.ownerGender == "male") {
+                profilePic.setActualImageResource(R.drawable.user_male_placeholder)
+            } else {
+                profilePic.setActualImageResource(R.drawable.user_female_placeholder)
+            }
+        } else {
+            profilePic.setImageURI(story?.ownerProfileUrl)
+        }
+    }
+
     private fun showFirstStory() {
         val storyItem = story?.storyItemList?.get(count)
         dateTimeTv.text = storyItem?.date + " " + storyItem?.time
         fullNameTv.text = story?.ownerName
-        profilePic.setImageURI(story?.ownerProfileUrl)
+        setUpOwnerProfilePhoto()
         storyItem?.let { storyItemNN ->
             storyPhoto.controller = story?.byUid?.let { storyUid -> getController(storyItemNN, storyUid, storyItemNN.timeStamp) }
             getStoryItemCount(storyItemNN)
@@ -160,7 +172,7 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
 
     override fun onNext() {
         val storyItem = story?.storyItemList?.get(++count)
-        profilePic.setImageURI(story?.ownerProfileUrl)
+        setUpOwnerProfilePhoto()
         storyItem?.let { storyItemNonNull ->
             story?.byUid?.let {
                 getStoryItemCount(storyItemNonNull)
@@ -174,7 +186,7 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
     override fun onPrev() {
         if (count - 1 >= 0) {
             val storyItem = story?.storyItemList?.get(--count)
-            profilePic.setImageURI(story?.ownerProfileUrl)
+            setUpOwnerProfilePhoto()
             getStoryItemCount(storyItem!!)
             storyPhoto.controller = story?.byUid?.let { getController(storyItem, it, storyItem.timeStamp) }
             //fullNameTv.setText(MySharedPrefs.getCurrentOfflineUser().getName());

@@ -26,5 +26,16 @@
             tools:listitem="@layout/user_layout" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+<!--    <TextView
+        android:id="@+id/all_users_empty_checker_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Users Registered Yet!!"
+        android:textSize="19dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

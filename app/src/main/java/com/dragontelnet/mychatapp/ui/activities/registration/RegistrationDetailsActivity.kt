@@ -22,9 +22,9 @@ import butterknife.OnClick
 import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.ui.activities.main.MainActivity
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.MyFirebaseStorageRefs
 import com.facebook.drawee.view.SimpleDraweeView
 import com.theartofdev.edmodo.cropper.CropImage

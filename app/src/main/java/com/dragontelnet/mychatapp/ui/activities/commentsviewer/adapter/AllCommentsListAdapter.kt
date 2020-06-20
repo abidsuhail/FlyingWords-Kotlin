@@ -14,13 +14,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class AllCommentsListAdapter(options: FirestoreRecyclerOptions<Comment?>, private val mViewModel: CommentsViewerViewModel?, private val activity: CommentsViewerActivity) : FirestoreRecyclerAdapter<Comment, CommentVH>(options) {
     override fun onBindViewHolder(holder: CommentVH, position: Int, comment: Comment) {
-        mViewModel?.getUser(comment.commentByUid)?.observe(activity,
-                Observer { user: User -> holder.bindCommentDetails(holder, user, comment) })
+        mViewModel?.getUser(comment.commentByUid)?.observe(activity, Observer { user: User -> holder.bindCommentDetails(holder, user, comment) })
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentVH {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.comment_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.comment_layout, parent, false)
         return CommentVH(view)
     }
 

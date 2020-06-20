@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask

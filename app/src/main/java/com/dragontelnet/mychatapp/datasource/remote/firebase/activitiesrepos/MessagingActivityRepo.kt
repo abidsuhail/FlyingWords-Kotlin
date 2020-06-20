@@ -195,6 +195,16 @@ class MessagingActivityRepo : FcmMessagingService() {
         return lastChatEvent
     }
 
+    fun isChatUserIsFriend(receiverUid: String): SingleLiveEvent<Boolean> {
+        val chatUserFriendEvent = SingleLiveEvent<Boolean>()
+        MyFirestoreDbRefs.getUidFriendsCollection(getCurrentUser()?.uid).document(receiverUid)
+                .get()
+                .addOnSuccessListener { snap ->
+                    chatUserFriendEvent.value = snap.exists()
+                }
+        return chatUserFriendEvent
+    }
+
     companion object {
         private const val TAG = "MessagingFragmentRepo"
     }

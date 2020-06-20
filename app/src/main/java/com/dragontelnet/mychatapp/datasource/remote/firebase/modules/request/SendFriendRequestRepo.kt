@@ -41,8 +41,9 @@ open class SendFriendRequestRepo : UserDetailsFetcher() {
         val data = Data()
         with(data)
         {
-            title = "Request Received"
-            content = getCurrentOfflineUserFromBook?.name + " sent a request"
+            title = getCurrentOfflineUserFromBook?.name
+            content = "Request Received"
+            profileImg = getCurrentOfflineUserFromBook?.profilePic
             notificationPOJO.data = this
         }
         MyFirestoreDbRefs.allUsersCollection.document(receiverUid)

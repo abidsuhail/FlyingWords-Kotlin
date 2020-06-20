@@ -1,7 +1,6 @@
 package com.dragontelnet.mychatapp.ui.fragments.home.adapter.viewholder
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -85,17 +84,22 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindPostDetails(holder: PostVH, updatedPost: Post, mViewModel: FeedsFragmentViewModel, feedsFragment: FeedsFragment) {
         holder.mPostContentInclude.visibility = View.GONE //this contains set of post photo and caption
         holder.mPostDateTimeTv.text = updatedPost.dateTime?.date + " " + updatedPost.dateTime?.time
-        if (updatedPost.postPhotoUrl != "") {
-            holder.mPostContentInclude.visibility = View.VISIBLE
-            holder.mPostPhoto.visibility = View.VISIBLE
-            holder.mPostPhoto.setImageURI(updatedPost.postPhotoUrl)
-            holder.mCaptionTv.typeface = Typeface.defaultFromStyle(Typeface.ITALIC)
-        } else {
-            holder.mPostPhoto.visibility = View.GONE
-            holder.mCaptionTv.typeface = Typeface.DEFAULT
-            holder.mPostContentInclude.visibility = View.VISIBLE
+        holder.mLikesCountTv.text = updatedPost.likersUids?.size.toString() + " Likes"
+        holder.mCommentsCountTv.text = updatedPost.commentsCount.toString()
+
+        //only photo
+        if (updatedPost.postPhotoUrl != "" && updatedPost.caption == "") {
+            bindOnlyPostPhoto(holder, updatedPost)
         }
-        holder.mCaptionTv.text = updatedPost.caption
+        // only caption/status
+        else if (updatedPost.postPhotoUrl == "" && updatedPost.caption != "") {
+            bindOnlyPostCaption(holder, updatedPost)
+        }
+        //both caption and status
+        else {
+            bindPostAndCaption(holder, updatedPost)
+        }
+
         if (updatedPost.likersUids!!.contains(getCurrentUser()!!.uid)) {
             //my like exists
             setLikedButtonView(holder)
@@ -103,7 +107,6 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
             //my like not exists
             setRemovedLikeButtonView(holder)
         }
-        holder.mLikesCountTv.text = updatedPost.likersUids?.size.toString() + " Likes"
         if (updatedPost.lastComment != null) {
             holder.mLastComment.text = updatedPost.lastComment?.content
             mViewModel.getUser(updatedPost.lastComment?.commentByUid!!).observe(feedsFragment, Observer { user ->
@@ -116,7 +119,28 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
             holder.mLastComment.text = "No Comments Available!!!"
             holder.mLastCommentOwnerName.text = ""
         }
-        holder.mCommentsCountTv.text = updatedPost.commentsCount.toString()
+    }
+
+    private fun bindPostAndCaption(holder: PostVH, updatedPost: Post) {
+        holder.mPostContentInclude.visibility = View.VISIBLE
+        holder.mPostPhoto.visibility = View.VISIBLE //showing photo
+        holder.mCaptionTv.visibility = View.VISIBLE //showing caption
+        holder.mPostPhoto.setImageURI(updatedPost.postPhotoUrl) //binding photo
+        holder.mCaptionTv.text = updatedPost.caption //binding caption
+    }
+
+    private fun bindOnlyPostCaption(holder: PostVH, updatedPost: Post) {
+        holder.mPostContentInclude.visibility = View.VISIBLE
+        holder.mPostPhoto.visibility = View.GONE //hiding photo
+        holder.mCaptionTv.visibility = View.VISIBLE //showing caption
+        holder.mCaptionTv.text = updatedPost.caption //binding caption
+    }
+
+    private fun bindOnlyPostPhoto(holder: PostVH, updatedPost: Post) {
+        holder.mPostContentInclude.visibility = View.VISIBLE
+        holder.mPostPhoto.visibility = View.VISIBLE //showing photo
+        holder.mPostPhoto.setImageURI(updatedPost.postPhotoUrl) //binding photo
+        holder.mCaptionTv.visibility = View.GONE //hiding caption
     }
 
     private fun setLikedButtonView(holder: PostVH) {

@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
+import androidx.recyclerview.widget.SimpleItemAnimator
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -28,6 +30,7 @@ import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.toolbar.*
+
 
 class MessagingActivity : AppCompatActivity() {
 
@@ -70,6 +73,12 @@ class MessagingActivity : AppCompatActivity() {
             val i = Intent(this@MessagingActivity, ProfileActivity::class.java)
             i.putExtra("user", getChatUser())
             startActivity(i)
+        }
+
+        //disable blinking effect of chats
+        val animator: ItemAnimator? = privateMessagesRv.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
         }
     }
 
@@ -151,41 +160,55 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private fun initToolbarUserDetails(receiverUid: String) {
+
+        mViewModel?.isChatUserIsFriend(receiverUid)?.observe(this, Observer { isExists ->
+            if (isExists) {
+                fetchChatUserLiveDetails(receiverUid)
+            } else {
+                setUpChatUserProfileImage(getChatUser()!!)
+            }
+        })
+        my_toolbar.setOnClickListener {
+            val i = Intent(this, ProfileActivity::class.java)
+            i.putExtra("user", getChatUser())
+            startActivity(i)
+        }
+    }
+
+    private fun fetchChatUserLiveDetails(receiverUid: String) {
         mViewModel?.getLiveChatUserDetails(receiverUid, this)?.observe(this,
                 Observer { user: User ->
-                    toolbar_full_name.text = user.name
-
                     when (user.status) {
                         MyConstants.FirestoreKeys.ONLINE -> {
-                            toolbar_status.text = MyConstants.FirestoreKeys.ONLINE
-                        }
-                        else -> {
                             mViewModel?.getLastChatDocRef(CurrentUser.getCurrentUser()?.uid!!, receiverUid)?.observe(this,
                                     Observer {
                                         if (it == "typing") {
                                             toolbar_status.text = MyConstants.FirestoreKeys.TYPING_FIELD
                                         } else {
-                                            toolbar_status.text = user.date + " " + user.time
-
+                                            toolbar_status.text = MyConstants.FirestoreKeys.ONLINE
                                         }
                                     })
+                        }
+                        else -> {
+                            toolbar_status.text = user.date + " " + user.time
+                        }
+                    }
 
-                        }
-                    }
-                    if (user.profilePic != "") {
-                        toolbar_profile_pic.setImageURI(user.profilePic)
-                    } else {
-                        if ((user.gender == "male")) {
-                            toolbar_profile_pic.setImageResource(R.drawable.user_male_placeholder)
-                        } else {
-                            toolbar_profile_pic.setImageResource(R.drawable.user_female_placeholder)
-                        }
-                    }
+                    setUpChatUserProfileImage(user)
+
                 })
-        my_toolbar.setOnClickListener {
-            val i = Intent(this, ProfileActivity::class.java)
-            i.putExtra("user", getChatUser())
-            startActivity(i)
+    }
+
+    private fun setUpChatUserProfileImage(user: User) {
+        toolbar_full_name.text = user.name
+        if (user.profilePic != "") {
+            toolbar_profile_pic.setImageURI(user.profilePic)
+        } else {
+            if ((user.gender == "male")) {
+                toolbar_profile_pic.setImageResource(R.drawable.user_male_placeholder)
+            } else {
+                toolbar_profile_pic.setImageResource(R.drawable.user_female_placeholder)
+            }
         }
     }
 

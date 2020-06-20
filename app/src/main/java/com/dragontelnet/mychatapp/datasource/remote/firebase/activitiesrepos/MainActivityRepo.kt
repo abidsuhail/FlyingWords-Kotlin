@@ -10,9 +10,9 @@ import com.dragontelnet.mychatapp.model.entity.Chat
 import com.dragontelnet.mychatapp.model.entity.FriendRequest
 import com.dragontelnet.mychatapp.model.entity.PostNotification
 import com.dragontelnet.mychatapp.model.entity.User
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.DeviceTokenMap
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
@@ -32,6 +32,7 @@ class MainActivityRepo : UserDetailsFetcher() {
     private val unreadChatListenerList: MutableList<ListenerRegistration> = ArrayList()
     private val unreadNotifListenerList: MutableList<ListenerRegistration> = ArrayList()
 
+    private val TAG = "MainActivityRepo"
     fun setUserState(status: String): SingleLiveEvent<Boolean> {
         val stateEvent = SingleLiveEvent<Boolean>()
         val stateMap = HashMap<String, Any>()
@@ -43,6 +44,7 @@ class MainActivityRepo : UserDetailsFetcher() {
             MyFirestoreDbRefs.allUsersCollection
                     .document(it.uid).set(stateMap, SetOptions.merge()).addOnSuccessListener {
                         stateEvent.value = true
+                        Log.d(TAG, "setUserState: in")
                     }
         }
         return stateEvent

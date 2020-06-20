@@ -54,7 +54,7 @@ class ChatsListAdapter(private val olderChatsProgress: ProgressBar,
             if (newPos != RecyclerView.NO_POSITION) {
                 try {
                     val deletingChat = mList[newPos]
-                    AlertDialog.Builder(chatsFragment.context!!)
+                    AlertDialog.Builder(chatsFragment.requireContext())
                             .setTitle("Delete Chat")
                             .setMessage("Confirm delete chats of ${deletingChat.receiverUidUser?.name} ?")
                             .setPositiveButton("DELETE") { _, _ ->

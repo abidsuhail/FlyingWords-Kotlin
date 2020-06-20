@@ -20,10 +20,10 @@ class FriendReqVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var cancelSentRequest: Button = itemView.findViewById(R.id.friend_req_btn_cancel_sent)
     var profilePic: SimpleDraweeView = itemView.findViewById(R.id.friend_req_img)
 
-    fun bindUserDetails(user: User, holder: FriendReqVH) {
-        holder.fname.text = user.name
-        holder.gender.text = user.gender
-        if (user.profilePic == "") {
+    fun bindUserDetails(user: User?, holder: FriendReqVH) {
+        holder.fname.text = user?.name
+        holder.gender.text = user?.gender
+        if (user?.profilePic == "") {
             if (user.gender == "male") {
                 holder.profilePic.setImageResource(R.drawable.user_male_placeholder)
             } else {
@@ -31,7 +31,7 @@ class FriendReqVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
         } else {
             //show real image
-            holder.profilePic.setImageURI(user.profilePic)
+            holder.profilePic.setImageURI(user?.profilePic)
         }
     }
 
@@ -44,10 +44,15 @@ class FriendReqVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
             holder.confirmBtn.visibility = View.VISIBLE
             holder.declineBtn.visibility = View.VISIBLE
             holder.cancelSentRequest.visibility = View.GONE
+            holder.friendConnect.text = "wants to connect with you"
+            //holder.friendConnect.visibility=View.VISIBLE
         } else {
             holder.confirmBtn.visibility = View.GONE
             holder.declineBtn.visibility = View.GONE
             holder.cancelSentRequest.visibility = View.VISIBLE
+            holder.friendConnect.text = ""
+            //holder.friendConnect.visibility=View.GONE
+
         }
     }
 }

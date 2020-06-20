@@ -5,9 +5,9 @@ import com.dragontelnet.mychatapp.datasource.remote.firebase.modules.UserDetails
 import com.dragontelnet.mychatapp.model.entity.DateTime
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.model.entity.PostNotification
-import com.dragontelnet.mychatapp.utils.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 
 open class SendPostNotificationRepo : UserDetailsFetcher() {
