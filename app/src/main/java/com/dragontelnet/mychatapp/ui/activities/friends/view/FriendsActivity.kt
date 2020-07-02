@@ -17,6 +17,7 @@ import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.ui.activities.friends.adapter.FriendsListAdapter
 import com.dragontelnet.mychatapp.ui.activities.friends.viewmodel.FriendsActivityViewModel
+import com.dragontelnet.mychatapp.utils.auth.CurrentUser
 import kotlinx.android.synthetic.main.activity_friends.*
 
 class FriendsActivity : AppCompatActivity() {
@@ -33,27 +34,40 @@ class FriendsActivity : AppCompatActivity() {
     private var mViewModel: FriendsActivityViewModel? = null
     private var adapter: FriendsListAdapter? = null
     private var mFriendList = emptyList<User>()
+    private var friendUser: User? = null
+
+    companion object {
+        const val FRIEND_UID_KEY = "friendUser"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends)
         ButterKnife.bind(this)
         setSupportActionBar(toolbar)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        friendUser = intent.getSerializableExtra(FRIEND_UID_KEY) as? User
+
         mViewModel = ViewModelProvider(this).get(FriendsActivityViewModel::class.java)
 
     }
 
     override fun onStart() {
         super.onStart()
-        populateFriendsList()
+        if (friendUser != null) {
+            //viewing friend's friend
+            populateFriendsList(friendUser?.uid)
+        } else {
+            //viewing friend
+            populateFriendsList(CurrentUser.getCurrentUser()?.uid)
+        }
     }
 
-    private fun populateFriendsList() {
-        adapter = FriendsListAdapter(friendsProgress, this, emptyList())
+    private fun populateFriendsList(userUid: String?) {
+        adapter = FriendsListAdapter(friendsProgress, this, emptyList(), userUid)
         friendsRv.adapter = adapter
-        mViewModel?.getFriendListLive()?.observe(this, Observer { friendList ->
+        mViewModel?.getFriendListLive(userUid)?.observe(this, Observer { friendList ->
             if (friendList.isNotEmpty()) {
                 friendsErrorMsgTv.visibility = View.GONE
                 // and friend progress visibility will be removed by onBindViewHolder

@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -32,6 +33,8 @@ import com.dragontelnet.mychatapp.ui.fragments.home.view.HomeBaseFragment
 import com.dragontelnet.mychatapp.ui.fragments.notifications.view.NotificationsFragment
 import com.dragontelnet.mychatapp.ui.fragments.requests.view.RequestsFragment
 import com.dragontelnet.mychatapp.ui.fragments.search.view.SearchFragment
+import com.dragontelnet.mychatapp.utils.AppClosingService
+import com.dragontelnet.mychatapp.utils.AppObserver
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
+
 
     @BindView(R.id.bottom_nav_view)
     lateinit var bottomNavView: BottomNavigationView
@@ -56,15 +60,25 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var mViewModel: MainActivityViewModel? = null
     private var headerFullName: TextView? = null
     private var headerUserName: TextView? = null
+    private var headerViewProfile: TextView? = null
     private var headerProfilePic: SimpleDraweeView? = null
     private val fm = supportFragmentManager
 
     private var doubleBackToExitPressedOnce = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
         setSupportActionBar(myToolbar)
+
+        //this is for observing app level life cycle i.e background/foreground
+        //its used in ProcessObserver class
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppObserver())
+        startService(Intent(this, AppClosingService::class.java))
+
+
+
         mViewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         //setting device token to db
         mViewModel?.getAndSetDeviceTokenToDb(this)
@@ -147,13 +161,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.navigation_drawer_profile -> {
-                val intent = Intent(this, ProfileActivity::class.java)
-                startActivity(intent)
+                startProfileActivity()
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
             }
             R.id.navigation_drawer_about -> {
-                startSplashAcivity()
+                startSplashActivity()
                 drawerLayout.closeDrawer(GravityCompat.START)
                 return true
             }
@@ -296,7 +309,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
-    private fun startSplashAcivity() {
+    private fun startSplashActivity() {
         val i = Intent(this, SplashActivity::class.java)
         i.putExtra(SplashActivity.IS_ABOUT_NAV_CLICKED_INTENT, true)
         startActivity(i)
@@ -322,6 +335,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     //set offline status to db
                     mViewModel?.setUserState(FirestoreKeys.OFFLINE)?.observe(this, Observer {
                         progressDialog.dismiss()
+                        mViewModel?.removeAllListeners()
                         FirebaseAuth.getInstance().signOut()
                         startLoginActivity()
                     })
@@ -346,21 +360,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         startActivity(intent)
     }
 
+    private fun startProfileActivity() {
+        val intent = Intent(this, ProfileActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun clearLocalData() {
         MySharedPrefs.getUserRegistrationSharedPref(this).edit().clear().apply()
         MySharedPrefs.getUsersBook().destroy()
         MySharedPrefs.getPostsBook().destroy()
     }
-
-/*    override fun onResume() {
-        super.onResume()
-        //mViewModel?.setUserState(FirestoreKeys.ONLINE)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //mViewModel?.setUserState(FirestoreKeys.OFFLINE)
-    }*/
 
     override fun onDestroy() {
         super.onDestroy()
@@ -390,22 +399,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
 
             override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
                 refreshToolbarPic()
             }
         }
+        toggle.syncState()
         toggle.isDrawerIndicatorEnabled = false
         drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
         leftSideNavDrawerView.setNavigationItemSelectedListener(this)
         bottomNavView.setOnNavigationItemSelectedListener(this)
 
         initHeaderViewDetails()
         refreshToolbarPic()
-        profile_pic_toolbar.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
+        setClickListeners()
+    }
 
+    private fun setClickListeners() {
+        profile_pic_toolbar.setOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
+        headerViewProfile?.setOnClickListener { startProfileActivity() }
     }
 
     private fun initHeaderViewDetails() {
@@ -413,6 +423,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         headerFullName = header.findViewById(R.id.nav_header_full_name)
         headerUserName = header.findViewById(R.id.nav_header_username)
         headerProfilePic = header.findViewById(R.id.nav_header_image)
+        headerViewProfile = header.findViewById(R.id.nav_header_view_profile)
 
     }
 

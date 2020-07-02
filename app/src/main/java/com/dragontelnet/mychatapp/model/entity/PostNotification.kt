@@ -3,6 +3,7 @@ package com.dragontelnet.mychatapp.model.entity
 data class PostNotification(var notifId: String?,
                             var byUid: String?,
                             var postByUid: String?,
+                            var notifOwnerUser: User?,
                             var postOwnerName: String?,
                             var postOwnerProfilePic: String?,
                             var notifOwnerName: String?,
@@ -17,7 +18,7 @@ data class PostNotification(var notifId: String?,
                             var dateTime: DateTime?,
                             var commentContent: String) {
 
-    constructor() : this("", "", "", "", "", "", "", "", "", "", "", "", "", null, null, "")
+    constructor() : this("", "", "", null, "", "", "", "", "", "", "", "", "", "", null, null, "")
 
     companion object {
         const val LIKE_TYPE = "liked"

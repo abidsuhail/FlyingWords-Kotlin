@@ -8,6 +8,7 @@ import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.Chat
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
+import com.dragontelnet.mychatapp.utils.UserProfileDetailsSetter
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
 import com.facebook.drawee.view.SimpleDraweeView
 
@@ -63,18 +64,7 @@ class LastChatVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bindChatUserDetails(holder: LastChatVH, mUser: User?) {
-        mUser?.let { user ->
-            holder.fname.text = user.name
-            if (user.profilePic == "") {
-                if (user.gender == "male") {
-                    holder.profilePic.setImageResource(R.drawable.user_male_placeholder)
-                } else {
-                    holder.profilePic.setImageResource(R.drawable.user_female_placeholder)
-                }
-            } else {
-                holder.profilePic.setImageURI(user.profilePic)
-            }
-        }
+        mUser?.let { user -> UserProfileDetailsSetter.setAllUserDetails(user, nameTv = holder.fname, sdv = holder.profilePic) }
     }
 
 }

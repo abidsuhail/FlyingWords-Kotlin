@@ -9,6 +9,28 @@
     tools:context=".ui.activities.commentsviewer.view.CommentsViewerActivity"
     tools:showIn="@layout/activity_comments_viewer">
 
+    <include
+        android:id="@+id/comments_top_user_details"
+        layout="@layout/post_top_include"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/comment_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/divider"
+        app:layout_constraintTop_toBottomOf="@id/comments_top_user_details"
+        app:layout_constraintEnd_toEndOf="@+id/comments_top_user_details"
+        app:layout_constraintStart_toStartOf="@+id/comments_top_user_details"
+        tools:layout_editor_absoluteY="2dp"
+        android:orientation="horizontal" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments_rv"
         android:layout_width="0dp"
@@ -17,7 +39,7 @@
         app:layout_constraintBottom_toTopOf="@+id/comment_content_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_divider"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/comment_layout" />
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/rounded_linear"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textStyle="italic|bold"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/story_reply_image_sdv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Story"
+            tools:text="Abid * Staus" />-->
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/story_reply_image_sdv"
+            android:layout_width="66dp"
+            android:layout_height="80dp"
+            android:layout_gravity="end"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeholderImage="@color/divider"
+            app:roundedCornerRadius="5dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="@android:color/transparent"
+        android:weightSum="6">
+
+        <EditText
+            android:id="@+id/story_reply_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5.5"
+            android:padding="5dp"
+            android:hint="Reply...."
+            android:background="@drawable/edit_text_layout"
+            android:layout_margin="5dp" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/story_reply_btn"
+            android:layout_width="15dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            app:roundAsCircle="true"
+            android:clickable="true"
+            android:focusable="true"
+            app:placeholderImage="@drawable/ic_send" />
+    </LinearLayout>
+</LinearLayout>
+

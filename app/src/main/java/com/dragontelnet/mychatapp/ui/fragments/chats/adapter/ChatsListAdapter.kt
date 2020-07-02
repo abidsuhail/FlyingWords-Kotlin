@@ -35,10 +35,7 @@ class ChatsListAdapter(private val olderChatsProgress: ProgressBar,
         val lastChat = mList[position]
 
         holder.bindChatUserDetails(holder, lastChat.receiverUidUser)
-        holder.bindLastChatViewsDetails(holder, lastChat,
-                chatsFragment.resources.getColor(R.color.secondary_text),
-                chatsFragment.resources.getColor(R.color.colorPrimary))
-
+        holder.bindLastChatViewsDetails(holder, lastChat, chatsFragment.resources.getColor(R.color.secondary_text), chatsFragment.resources.getColor(R.color.colorPrimary))
         setItemClickListener(holder, lastChat.receiverUidUser, position)
     }
 

@@ -16,6 +16,7 @@ import com.dragontelnet.mychatapp.ui.fragments.search.adapter.AllUsersListAdapte
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs.allUsersCollection
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
 import com.google.firebase.firestore.Query
+import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
 
@@ -38,6 +39,7 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         populateUsersList()
         swipeRefreshLayout.setOnRefreshListener {
             adapter?.updateOptions(defaultPagingOptions())
@@ -59,6 +61,19 @@ class SearchFragment : Fragment() {
     private fun setUpSearchView(menu: Menu) {
         val searchMenuItem = menu.findItem(R.id.search_bar)
         val searchView = searchMenuItem.actionView as SearchView
+
+        searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true /* KEEP IT TO TRUE OR IT DOESN'T OPEN !! */
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                // On back pressed
+                adapter?.updateOptions(defaultPagingOptions())
+                return true // OR FALSE IF YOU DIDN'T WANT IT TO CLOSE!
+            }
+        })
+
         //searchView.queryHint = "Search name or phone with country code..."
         //Query listener
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -67,7 +82,10 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(query: String): Boolean {
-                val capitalizeQuery = query.capitalize()
+                all_users_empty_checker_tv.visibility = View.GONE
+                search_logo_iv.visibility = View.GONE
+
+                val capitalizeQuery = query.trim().capitalize()
                 getSearchingOptions(capitalizeQuery)?.let {
                     adapter?.updateOptions(it)
                     return true
@@ -78,13 +96,6 @@ class SearchFragment : Fragment() {
             }
         })
 
-        //search view focus listener
-        searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                adapter?.updateOptions(defaultPagingOptions())
-                searchView.isIconified = true
-            }
-        }
     }
 
     private fun buildPagingOptions(field: String, searchQuery: String): FirestorePagingOptions<User> {
@@ -101,7 +112,7 @@ class SearchFragment : Fragment() {
 
                 return if (query[0].isDigit()) {
                     //is digit like 1,2.....etc
-                    val newQuery = "+1$query"
+                    val newQuery = "+91$query"
                     //val newQuery = query.padStart(query.length + 1, '+') //adding plus '+' at starting of phone
                     buildPagingOptions("phone", newQuery)
                 } else {
@@ -130,9 +141,11 @@ class SearchFragment : Fragment() {
                 .build()
 
     private fun defaultPagingOptions(): FirestorePagingOptions<User> {
+        all_users_empty_checker_tv.visibility = View.VISIBLE
+        search_logo_iv.visibility = View.VISIBLE
         return FirestorePagingOptions.Builder<User>()
                 .setLifecycleOwner(this)
-                .setQuery(allUsersCollection, config, User::class.java)
+                .setQuery(allUsersCollection.orderBy("name").startAt("0").endAt("0"), config, User::class.java)
                 .build()
     }
 
@@ -141,7 +154,7 @@ class SearchFragment : Fragment() {
                 .orderBy(field)
                 .startAt(searchText.trim { it <= ' ' })
                 .endAt(searchText.trim { it <= ' ' } + "\uf8ff")
-                .limit(15)
+                .limit(10)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

@@ -26,11 +26,11 @@ class AppClosingService : Service() {
     }
 
     private fun setUserState(status: String) {
-        val stateMap = HashMap<String, Any>()
-        stateMap[MyConstants.FirestoreKeys.DATE] = CurrentDateAndTime.currentDate
-        stateMap[MyConstants.FirestoreKeys.TIME] = CurrentDateAndTime.currentTime
-        stateMap[MyConstants.FirestoreKeys.STATUS] = status
         CurrentUser.getCurrentUser()?.let {
+            val stateMap = HashMap<String, Any>()
+            stateMap[MyConstants.FirestoreKeys.DATE] = CurrentDateAndTime.currentDate
+            stateMap[MyConstants.FirestoreKeys.TIME] = CurrentDateAndTime.currentTime
+            stateMap[MyConstants.FirestoreKeys.STATUS] = status
             MyFirestoreDbRefs.allUsersCollection
                     .document(it.uid).set(stateMap, SetOptions.merge()).addOnSuccessListener {
                         stopSelf()

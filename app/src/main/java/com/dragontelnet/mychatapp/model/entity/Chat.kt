@@ -16,6 +16,7 @@ data class Chat(var receiverUidUser: User?,
                 var isTyping: String?,
                 var msgKey: String?,
                 var deviceTimeStamp: Long?,
+                var storyPhotoLink: String?,
                 @ServerTimestamp
                 var timeStamp: Date?) : Serializable {
 
@@ -29,6 +30,7 @@ data class Chat(var receiverUidUser: User?,
             "nottyping",
             "",
             CurrentDateAndTime.timeStamp,
+            "",
             null)
 
     override fun hashCode(): Int {

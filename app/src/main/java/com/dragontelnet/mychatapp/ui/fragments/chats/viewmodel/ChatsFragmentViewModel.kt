@@ -18,6 +18,7 @@ class ChatsFragmentViewModel : ViewModel() {
     }
 
     fun getLastChatListLive(): LiveData<List<Chat>> {
+        sortedChatsListEvent.removeSource(repo.getLastChatListLive())
         sortedChatsListEvent.addSource(repo.getLastChatListLive()) { list ->
             val sortedChatList = list.sortedWith(compareByDescending {
                 if (it.timeStamp != null) {

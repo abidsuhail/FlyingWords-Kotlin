@@ -8,6 +8,7 @@ import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.FriendRequest
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.utils.MyConstants
+import com.dragontelnet.mychatapp.utils.UserProfileDetailsSetter
 import com.facebook.drawee.view.SimpleDraweeView
 
 class FriendReqVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -21,18 +22,8 @@ class FriendReqVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var profilePic: SimpleDraweeView = itemView.findViewById(R.id.friend_req_img)
 
     fun bindUserDetails(user: User?, holder: FriendReqVH) {
-        holder.fname.text = user?.name
-        holder.gender.text = user?.gender
-        if (user?.profilePic == "") {
-            if (user.gender == "male") {
-                holder.profilePic.setImageResource(R.drawable.user_male_placeholder)
-            } else {
-                holder.profilePic.setImageResource(R.drawable.user_female_placeholder)
-            }
-        } else {
-            //show real image
-            holder.profilePic.setImageURI(user?.profilePic)
-        }
+        UserProfileDetailsSetter.setAllUserDetails(user = user, nameTv = holder.fname, genderTv = holder.gender, sdv = holder.profilePic)
+
     }
 
     fun bindRequestButtons(friendRequest: FriendRequest, holder: FriendReqVH) {

@@ -23,7 +23,7 @@ data class User(var name: String?,
     }
 
     override fun hashCode(): Int {
-        return phone?.removePrefix("+1650555")?.toInt()!!
+        return phone.hashCode()
     }
 
     override fun equals(other: Any?): Boolean {

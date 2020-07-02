@@ -24,7 +24,7 @@ import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.datasource.local.MySharedPrefs
 import com.dragontelnet.mychatapp.model.entity.Story
 import com.dragontelnet.mychatapp.model.entity.StoryItem
-import com.dragontelnet.mychatapp.ui.activities.showallmystories.ShowMyAllStoryActivity
+import com.dragontelnet.mychatapp.ui.activities.showallmystories.view.ShowMyAllStoryActivity
 import com.dragontelnet.mychatapp.ui.activities.storyviewer.StoryViewerActivity
 import com.dragontelnet.mychatapp.ui.fragments.story.adapter.AllStoriesListAdapter
 import com.dragontelnet.mychatapp.ui.fragments.story.viewmodel.StoryViewModel
@@ -155,6 +155,7 @@ class StoryFragment : Fragment() {
     }
 
     private fun cropImage() {
+        Toast.makeText(context, "Opening Gallery.....", Toast.LENGTH_SHORT).show()
         (context)?.let {
             CropImage.activity()
                     .setAspectRatio(9, 16)

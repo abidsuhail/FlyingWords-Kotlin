@@ -5,6 +5,6 @@
         android:id="@+id/search_bar"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

@@ -327,6 +327,7 @@ class RegistrationDetailsActivity : AppCompatActivity() {
 
     @OnClick(R.id.linearLayoutProfile)
     fun onProfilePicLayout() {
+        Toast.makeText(this, "Opening Gallery.....", Toast.LENGTH_SHORT).show()
         cropImage()
     }
 

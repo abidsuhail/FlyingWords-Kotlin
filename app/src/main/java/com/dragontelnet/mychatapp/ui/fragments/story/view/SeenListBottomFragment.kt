@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -48,7 +47,6 @@ class SeenListBottomFragment : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater.inflate(R.layout.seen_bottom_sheet_layout, parent, false)
         ButterKnife.bind(this, view)
-        seenPeoplesRv.layoutManager = LinearLayoutManager(activity)
         return view
     }
 
@@ -58,7 +56,7 @@ class SeenListBottomFragment : BottomSheetDialogFragment() {
     }
 
     private fun populateSeenList() {
-        val storyItem: StoryItem? = arguments?.getSerializable(StoryViewerActivity.STORY_ITEM_KEY) as StoryItem
+        val storyItem: StoryItem? = arguments?.getSerializable(StoryViewerActivity.STORY_ITEM_INTENT_KEY) as StoryItem
         val query: CollectionReference? = getCurrentUser()?.uid?.let {
             rootRef.collection(MyConstants.FirestoreCollection.SEEN_STORY_UIDS)
                     .document(it)
@@ -116,6 +114,7 @@ class SeenListBottomFragment : BottomSheetDialogFragment() {
         super.onDestroy()
         adapter?.stopListening()
         mListener?.onBottomFragmentSheetDismiss()
+        mListener = null
     }
 
     override fun onStart() {
@@ -123,7 +122,7 @@ class SeenListBottomFragment : BottomSheetDialogFragment() {
         mListener?.onBottomFragmentSheetShown()
     }
 
-    open interface BottomFragmentSheetListener {
+    interface BottomFragmentSheetListener {
         fun onBottomFragmentSheetDismiss()
         fun onBottomFragmentSheetShown()
     }

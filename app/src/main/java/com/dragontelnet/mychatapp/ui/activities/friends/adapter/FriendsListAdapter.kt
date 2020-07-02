@@ -11,10 +11,13 @@ import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.ui.activities.friends.adapter.viewholder.FriendVH
 import com.dragontelnet.mychatapp.ui.activities.friends.view.FriendsActivity
 import com.dragontelnet.mychatapp.ui.activities.messaging.view.MessagingActivity
+import com.dragontelnet.mychatapp.ui.activities.profile.view.ProfileActivity
+import com.dragontelnet.mychatapp.utils.auth.CurrentUser
 
 class FriendsListAdapter(private val friendsProgress: ProgressBar,
                          private val activity: FriendsActivity,
-                         private var mList: List<User>) : RecyclerView.Adapter<FriendVH>() {
+                         private var mList: List<User>,
+                         private val userUid: String?) : RecyclerView.Adapter<FriendVH>() {
 
     fun updateFriendList(list: List<User>) {
         mList = list
@@ -36,7 +39,18 @@ class FriendsListAdapter(private val friendsProgress: ProgressBar,
     override fun getItemCount(): Int = mList.size
 
     private fun settingOnClickListeners(user: User, holder: FriendVH) {
-        holder.itemView.setOnClickListener { startMessagingActivity(user) }
+        if (userUid == CurrentUser.getCurrentUser()?.uid) {
+            holder.itemView.setOnClickListener { startMessagingActivity(user) }
+        } else {
+            holder.itemView.setOnClickListener { startProfileActivity(user) }
+        }
+    }
+
+    private fun startProfileActivity(user: User) {
+
+        val i = Intent(activity, ProfileActivity::class.java)
+        i.putExtra("user", user)
+        activity.startActivity(i)
     }
 
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos.StoryFragmentRepo
 import com.dragontelnet.mychatapp.model.entity.Story
+import com.dragontelnet.mychatapp.model.entity.StoryItem
 import com.dragontelnet.mychatapp.model.entity.User
 import com.google.firebase.storage.StorageReference
 
@@ -29,6 +30,7 @@ class StoryViewModel : ViewModel() {
         return repo.getUser(uid)
     }
 
+    fun deleteSingleStory(story: Story, storyItem: StoryItem): LiveData<Boolean> = repo.delStoryFromDb(story, storyItem)
     fun destroyStory(story: Story?) {
         repo.destroyStory(story!!)
     }

@@ -9,6 +9,7 @@ import com.dragontelnet.mychatapp.model.fcm.MyResponse
 import com.dragontelnet.mychatapp.model.fcm.NotificationPOJO
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
+import com.dragontelnet.mychatapp.utils.datetime.CurrentDateAndTime
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
 import com.google.firebase.firestore.DocumentSnapshot
@@ -64,6 +65,7 @@ open class SendFriendRequestRepo : UserDetailsFetcher() {
         userReqObj.sentByUid = getCurrentUser()!!.uid
         userReqObj.receiverUid = receiverUid
         userReqObj.type = FirestoreKeys.RECEIVED
+        userReqObj.timeStamp = CurrentDateAndTime.timeStamp
         return userReqObj
     }
 
@@ -73,6 +75,7 @@ open class SendFriendRequestRepo : UserDetailsFetcher() {
         myReqObj.receiverUid = getCurrentUser()!!.uid
         myReqObj.type = FirestoreKeys.SENT
         myReqObj.sentByUid = receiverUid
+        myReqObj.timeStamp = CurrentDateAndTime.timeStamp
         return myReqObj
     }
 

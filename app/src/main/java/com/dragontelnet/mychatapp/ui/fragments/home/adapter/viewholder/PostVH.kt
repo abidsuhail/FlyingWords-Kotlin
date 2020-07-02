@@ -13,6 +13,7 @@ import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.ui.activities.profile.view.ProfileActivity
 import com.dragontelnet.mychatapp.ui.fragments.home.view.FeedsFragment
 import com.dragontelnet.mychatapp.ui.fragments.home.viewmodel.FeedsFragmentViewModel
+import com.dragontelnet.mychatapp.utils.UserProfileDetailsSetter
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
 import com.facebook.drawee.view.SimpleDraweeView
 
@@ -38,16 +39,7 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindUserDetails(holder: PostVH, updatedPost: Post, mViewModel: FeedsFragmentViewModel, feedsFragment: FeedsFragment) {
         if (updatedPost.byUid == getCurrentUser()?.uid && getCurrentOfflineUserFromBook != null) {
             val offlineUser = getCurrentOfflineUserFromBook
-            holder.mUserFullName.text = offlineUser!!.name
-            if (offlineUser.profilePic == "") {
-                if (offlineUser.gender == "male") {
-                    holder.mUserProfilePic.setImageResource(R.drawable.user_male_placeholder)
-                } else {
-                    holder.mUserProfilePic.setImageResource(R.drawable.user_female_placeholder)
-                }
-            } else {
-                holder.mUserProfilePic.setImageURI(offlineUser.profilePic)
-            }
+            UserProfileDetailsSetter.setAllUserDetails(user = offlineUser, nameTv = holder.mUserFullName, sdv = holder.mUserProfilePic)
             holder.mUserFullName.setOnClickListener {
                 holder.startProfileActivity(offlineUser, feedsFragment)
             }
@@ -75,10 +67,12 @@ class PostVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    private fun startProfileActivity(user: User, feedsFragment: FeedsFragment) {
-        val i = Intent(feedsFragment.context, ProfileActivity::class.java)
-        i.putExtra("user", user)
-        feedsFragment.startActivity(i)
+    private fun startProfileActivity(user: User?, feedsFragment: FeedsFragment) {
+        user?.let {
+            val i = Intent(feedsFragment.context, ProfileActivity::class.java)
+            i.putExtra("user", it)
+            feedsFragment.startActivity(i)
+        }
     }
 
     fun bindPostDetails(holder: PostVH, updatedPost: Post, mViewModel: FeedsFragmentViewModel, feedsFragment: FeedsFragment) {

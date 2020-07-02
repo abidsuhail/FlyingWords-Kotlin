@@ -13,6 +13,7 @@
         android:layout_height="40dp"
         android:layout_gravity="start"
         android:padding="3dp"
+        app:roundAsCircle="true"
         app:placeholderImage="@drawable/user_male_placeholder"
         app:actualImageScaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"

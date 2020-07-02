@@ -8,7 +8,6 @@ import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs.allUsersCollection
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs.myFriendRequestsListRef
-import com.dragontelnet.mychatapp.utils.livedata.SingleLiveEvent
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
@@ -22,19 +21,6 @@ class RequestsFragmentRepo : RequestsRepoOperationsHandler() {
     private val listenerRegistrationList: MutableList<ListenerRegistration> = mutableListOf()
     private val reqLiveEvent = MutableLiveData<List<FriendRequest>>()
 
-
-    fun getFriend(friendUid: String): SingleLiveEvent<User> {
-        //here sender is I,that is my uid is senderUid
-        val friendLiveEvent = SingleLiveEvent<User>()
-        allUsersCollection.document(friendUid)
-                .get().addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        val user = documentSnapshot.toObject(User::class.java)
-                        user?.let { friendLiveEvent.value = it }
-                    }
-                }
-        return friendLiveEvent
-    }
 
     fun setSeenToAllReqListener() {
         //listening to requests to add seen update

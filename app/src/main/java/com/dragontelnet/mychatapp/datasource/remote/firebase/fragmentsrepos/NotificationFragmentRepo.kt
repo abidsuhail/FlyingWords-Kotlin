@@ -47,6 +47,7 @@ class NotificationFragmentRepo {
                                     notifObj.notifOwnerName = notifUser?.name
                                     notifObj.notifOwnerProfilePic = notifUser?.profilePic
                                     notifObj.notifOwnerGender = notifUser?.gender
+                                    notifObj.notifOwnerUser = notifUser
                                     MyFirestoreDbRefs.allUsersCollection.document(notifObj.postByUid!!)
                                             .get()
                                             .addOnSuccessListener { ds2 ->

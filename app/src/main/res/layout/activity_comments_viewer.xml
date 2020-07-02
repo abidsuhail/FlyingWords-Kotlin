@@ -24,10 +24,20 @@
                 android:id="@+id/post_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:placeholderImage="@drawable/user_male_placeholder"
+                app:placeholderImage="@drawable/ic_loading_gif"
                 fresco:layout_collapseMode="parallax"
                 fresco:viewAspectRatio="1"
+                android:visibility="gone"
                 android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/post_text_caption"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                tools:text="Hiiiii"
+                android:visibility="visible"
+                android:textSize="20dp"
+                android:gravity="center_horizontal|center_vertical" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

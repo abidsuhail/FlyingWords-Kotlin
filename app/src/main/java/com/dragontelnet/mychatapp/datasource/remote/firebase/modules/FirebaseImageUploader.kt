@@ -17,7 +17,7 @@ open class FirebaseImageUploader : UserDetailsFetcher() {
     fun uploadPhoto(uri: Uri, context: Context, photoStorageRef: StorageReference): SingleLiveEvent<String> {
         val event = SingleLiveEvent<String>()
         val storageRef = photoStorageRef
-                .child(CurrentDateAndTime.currentDate + CurrentDateAndTime.currentTime)
+                .child(CurrentDateAndTime.currentDate + " " + CurrentDateAndTime.currentTime + " " + CurrentDateAndTime.timeStamp)
         var bmp: Bitmap? = null
         try {
             bmp = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)

@@ -24,10 +24,12 @@ import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.datasource.local.MySharedPrefs
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.model.entity.User
+import com.dragontelnet.mychatapp.ui.activities.friends.view.FriendsActivity
 import com.dragontelnet.mychatapp.ui.activities.profile.adapter.ProfileThumbnailPostListAdapter
 import com.dragontelnet.mychatapp.ui.activities.profile.viewmodel.ProfileActivityViewModel
 import com.dragontelnet.mychatapp.ui.activities.registration.RegistrationDetailsActivity
 import com.dragontelnet.mychatapp.utils.MyConstants.ProfileFriendRequestCodes
+import com.dragontelnet.mychatapp.utils.UserProfileDetailsSetter
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.facebook.drawee.view.SimpleDraweeView
@@ -135,7 +137,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setFriendsCount(profileUser: User) {
         mViewModel?.getFriendsCount(profileUser.uid!!)?.observe(this, Observer { count ->
-            see_all_friends_tv.text = "Friends(${count})"
+            see_all_friends_btn.text = "Friends : $count"
         })
     }
 
@@ -162,21 +164,13 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun initUserDetails(user: User) {
         //here user null check is previously checked
-        userNameTv.text = "@${user.username}"
-        fullNameTv.text = user.name
-        userGender.text = user.gender?.capitalize()
-        user_city.text = user.city
-        user_bio.text = user.bio
-
-        if (user.profilePic != "") {
-            profilePic.setImageURI(user.profilePic)
-        } else {
-            if (user.gender == "male") {
-                profilePic.setImageResource(R.drawable.user_male_placeholder)
-            } else {
-                profilePic.setImageResource(R.drawable.user_female_placeholder)
-            }
-        }
+        UserProfileDetailsSetter.setAllUserDetails(user = user,
+                sdv = profilePic,
+                userNameTv = userNameTv,
+                nameTv = fullNameTv,
+                genderTv = userGender,
+                cityTv = user_city,
+                bioTv = user_bio)
         listenProfileButtonsVisibility(user)
     }
 
@@ -187,7 +181,7 @@ class ProfileActivity : AppCompatActivity() {
                         ProfileFriendRequestCodes.SENT -> setSentReqBtnsVisibility()
                         ProfileFriendRequestCodes.RECEIVED -> setReceivedReqBtnsVisibility()
                         ProfileFriendRequestCodes.NO_REQUEST_EXISTS -> setNoReqExistsBtnsVisibility()
-                        ProfileFriendRequestCodes.SAME_USER, ProfileFriendRequestCodes.UNKNOWN_REQUEST -> setSameUserBtnsVisibility()
+                        ProfileFriendRequestCodes.SAME_USER, ProfileFriendRequestCodes.UNKNOWN_REQUEST -> setSameUserBtnsVisibility(friendReqCode)
                         ProfileFriendRequestCodes.FRIENDS -> setAreFriendsBtnsVisibility()
                         else -> Toast.makeText(this@ProfileActivity, "Unknown error", Toast.LENGTH_SHORT).show()
                     }
@@ -372,12 +366,30 @@ class ProfileActivity : AppCompatActivity() {
         showSuitableBtns(unfriendBtn)
         showRecyclerViewUserPosts()
         getProfileUserPostAvailability()
+
+        see_all_friends_btn.isEnabled = true
+
+        see_all_friends_btn.setOnClickListener {
+            val i = Intent(this, FriendsActivity::class.java)
+            i.putExtra(FriendsActivity.FRIEND_UID_KEY, profileUser())
+            startActivity(i)
+        }
     }
 
-    private fun setSameUserBtnsVisibility() {
+    private fun setSameUserBtnsVisibility(friendReqCode: Int) {
         showSuitableBtns(editProfileBtn)
         showRecyclerViewUserPosts()
         getProfileUserPostAvailability()
+        if (friendReqCode == ProfileFriendRequestCodes.SAME_USER) {
+            see_all_friends_btn.isEnabled = true
+            see_all_friends_btn.setOnClickListener {
+                val i = Intent(this, FriendsActivity::class.java)
+                startActivity(i)
+            }
+        } else {
+            see_all_friends_btn.setOnClickListener(null)
+            see_all_friends_btn.isEnabled = false
+        }
     }
 
     private fun setNoReqExistsBtnsVisibility() {
@@ -387,7 +399,8 @@ class ProfileActivity : AppCompatActivity() {
         //not friends
         noProfilePostsTv.visibility = View.GONE
         postsHiddenTv.visibility = View.VISIBLE
-
+        see_all_friends_btn.setOnClickListener(null)
+        see_all_friends_btn.isEnabled = false
     }
 
     private fun setReceivedReqBtnsVisibility() {
@@ -397,6 +410,8 @@ class ProfileActivity : AppCompatActivity() {
         //not friends
         noProfilePostsTv.visibility = View.GONE
         postsHiddenTv.visibility = View.VISIBLE
+        see_all_friends_btn.setOnClickListener(null)
+        see_all_friends_btn.isEnabled = false
     }
 
     private fun setSentReqBtnsVisibility() {
@@ -406,6 +421,8 @@ class ProfileActivity : AppCompatActivity() {
         //not friends
         noProfilePostsTv.visibility = View.GONE
         postsHiddenTv.visibility = View.VISIBLE
+        see_all_friends_btn.setOnClickListener(null)
+        see_all_friends_btn.isEnabled = false
     }
 
     private fun hideRecyclerViewUserPosts() {

@@ -44,6 +44,7 @@
                android:textStyle="bold"
                android:text="10 Friends"/>-->
         <TextView
+            android:id="@+id/nav_header_view_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"

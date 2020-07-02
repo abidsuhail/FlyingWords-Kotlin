@@ -16,36 +16,39 @@ class ChatFragmentRepo : UserDetailsFetcher() {
     private val friendsHashSet = hashSetOf<Chat>()
     fun getLastChatListLive(): MutableLiveData<List<Chat>> {
 
-        friendLastChatListener = getOlderChatsRefOfUid(getCurrentUser()?.uid)
-                .addSnapshotListener { t, _ ->
-                    val dc = t?.documentChanges
-                    if (dc != null && dc.isNotEmpty()) {
-                        dc.forEach {
-                            when (it.type) {
-                                DocumentChange.Type.ADDED, DocumentChange.Type.MODIFIED -> {
-                                    //friend added,now it will listen to updates from user collection
-                                    val chat = it.document.toObject(Chat::class.java)
-                                    MyFirestoreDbRefs.allUsersCollection.document(chat.receiverUid!!).get()
-                                            .addOnSuccessListener { ds ->
-                                                val user: User = ds.toObject(User::class.java)!!
-                                                chat.receiverUidUser = user
-                                                friendsHashSet.remove(chat)
-                                                friendsHashSet.add(chat)
-                                                friendChatEvent.value = friendsHashSet.toList()
-                                            }
-                                }
-                                DocumentChange.Type.REMOVED -> {
-                                    //friend removed,now remove it from list
-                                    val chat = it.document.toObject(Chat::class.java)
-                                    friendsHashSet.remove(chat)
-                                    friendChatEvent.value = friendsHashSet.toList()
+        getCurrentUser()?.uid?.let { uid ->
+            friendLastChatListener = getOlderChatsRefOfUid(uid)
+                    .addSnapshotListener { t, _ ->
+                        val dc = t?.documentChanges
+                        if (dc != null && dc.isNotEmpty()) {
+                            dc.forEach {
+                                when (it.type) {
+                                    DocumentChange.Type.ADDED, DocumentChange.Type.MODIFIED -> {
+                                        //friend added,now it will listen to updates from user collection
+                                        val chat = it.document.toObject(Chat::class.java)
+                                        MyFirestoreDbRefs.allUsersCollection.document(chat.receiverUid!!).get()
+                                                .addOnSuccessListener { ds ->
+                                                    val user: User = ds.toObject(User::class.java)!!
+                                                    chat.receiverUidUser = user
+                                                    friendsHashSet.remove(chat)
+                                                    friendsHashSet.add(chat)
+                                                    friendChatEvent.value = friendsHashSet.toList()
+                                                }
+                                    }
+                                    DocumentChange.Type.REMOVED -> {
+                                        //friend removed,now remove it from list
+                                        val chat = it.document.toObject(Chat::class.java)
+                                        friendsHashSet.remove(chat)
+                                        friendChatEvent.value = friendsHashSet.toList()
+                                    }
                                 }
                             }
+                        } else {
+                            friendChatEvent.value = emptyList()
                         }
-                    } else {
-                        friendChatEvent.value = emptyList()
                     }
-                }
+        }
+
         return friendChatEvent
     }
 

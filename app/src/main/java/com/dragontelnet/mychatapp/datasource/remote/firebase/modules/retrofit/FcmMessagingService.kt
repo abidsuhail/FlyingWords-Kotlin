@@ -3,6 +3,7 @@ package com.dragontelnet.mychatapp.datasource.remote.firebase.modules.retrofit
 import android.content.Context
 import com.dragontelnet.mychatapp.datasource.local.MySharedPrefs.getCurrentOfflineUserFromBook
 import com.dragontelnet.mychatapp.datasource.remote.api.retrofit.MyRetrofitInstance
+import com.dragontelnet.mychatapp.datasource.remote.firebase.modules.UserDetailsFetcher
 import com.dragontelnet.mychatapp.model.entity.User
 import com.dragontelnet.mychatapp.model.fcm.Data
 import com.dragontelnet.mychatapp.model.fcm.MyResponse
@@ -11,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-open class FcmMessagingService {
+open class FcmMessagingService : UserDetailsFetcher() {
     fun sendNotification(user: User, chatMsg: String?, context: Context?) {
 
         //sending post request NotificationPOJO

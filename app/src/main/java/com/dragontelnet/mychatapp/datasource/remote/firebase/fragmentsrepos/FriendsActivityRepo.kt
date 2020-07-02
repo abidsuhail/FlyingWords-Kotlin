@@ -3,7 +3,6 @@ package com.dragontelnet.mychatapp.datasource.remote.firebase.fragmentsrepos
 import androidx.lifecycle.MutableLiveData
 import com.dragontelnet.mychatapp.model.entity.Friend
 import com.dragontelnet.mychatapp.model.entity.User
-import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs.getUidFriendsCollection
 import com.google.firebase.firestore.DocumentChange
@@ -23,10 +22,10 @@ class FriendsActivityRepo {
         friendListListener?.remove()
     }
 
-    fun getFriendListLive(): MutableLiveData<List<User>> {
+    fun getFriendListLive(userUid: String?): MutableLiveData<List<User>> {
         val friendListEvent = MutableLiveData<List<User>>()
         val friendsHashSet = hashSetOf<User>()
-        friendListListener = getUidFriendsCollection(getCurrentUser()?.uid)
+        friendListListener = getUidFriendsCollection(userUid)
                 .addSnapshotListener { t, _ ->
                     val dc = t?.documentChanges
                     if (dc != null && dc.isNotEmpty()) {

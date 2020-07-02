@@ -202,7 +202,16 @@ class PostDetailsViewActivity : AppCompatActivity() {
             post.byUid?.let {
                 mViewModel?.getUser(it)?.observe(this, Observer { user: User ->
                     userFullName.text = user.name
-                    userProfilePic.setImageURI(user.profilePic)
+                    if (user.profilePic == "") {
+                        if (user.gender == "male") {
+                            userProfilePic.setActualImageResource(R.drawable.user_male_placeholder)
+                        } else {
+                            userProfilePic.setActualImageResource(R.drawable.user_female_placeholder)
+
+                        }
+                    } else {
+                        userProfilePic.setImageURI(user.profilePic)
+                    }
                 })
             }
         }

@@ -91,7 +91,9 @@ class StoryFragmentRepo : FirebaseImageUploader() {
         }
     }
 
-    private fun delStoryFromDb(mStory: Story, storyItem: StoryItem) {
+    fun delStoryFromDb(mStory: Story, storyItem: StoryItem): SingleLiveEvent<Boolean> {
+        val selectedDelStoryEvent = SingleLiveEvent<Boolean>()
+
         getAllStoriesDocumentRefOfUid(mStory.byUid)
                 .get()
                 .addOnSuccessListener { documentSnapshot ->
@@ -101,14 +103,18 @@ class StoryFragmentRepo : FirebaseImageUploader() {
                             getAllStoriesDocumentRefOfUid(story.byUid)
                                     .delete().addOnSuccessListener {
                                         //removing from list
+                                        selectedDelStoryEvent.value = true
                                     }
                         } else {
                             getAllStoriesDocumentRefOfUid(story.byUid)
                                     .update(FirestoreCollection.STORIES_ITEM_LIST_ARRAY, FieldValue.arrayRemove(storyItem))
-                                    .addOnSuccessListener { }
+                                    .addOnSuccessListener {
+                                        selectedDelStoryEvent.value = true
+                                    }
                         }
                     }
                 }
+        return selectedDelStoryEvent
     }
 
     fun queryStoryListCount(): MutableLiveData<Int> {

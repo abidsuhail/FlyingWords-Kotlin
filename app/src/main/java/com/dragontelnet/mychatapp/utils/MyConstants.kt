@@ -36,11 +36,17 @@ class MyConstants {
         }
     }
 
+    interface FirestoreKeysValues {
+        companion object GENDER {
+            const val MALE = "male"
+            const val FEMALE = "female"
+        }
+    }
+
     interface FirestoreKeys {
         companion object {
             const val IS_TYPING = "isTyping"
             const val NAME = "name"
-            const val GENDER = "gender"
             const val PHONE = "phone"
             const val PROFILE_PIC = "profilePic"
             const val DEVICE_TOKEN = "deviceToken"

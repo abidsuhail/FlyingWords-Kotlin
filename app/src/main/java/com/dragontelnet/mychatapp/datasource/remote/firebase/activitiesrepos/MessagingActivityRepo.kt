@@ -24,14 +24,14 @@ class MessagingActivityRepo : FcmMessagingService() {
     private var messagesEmptListener: ListenerRegistration? = null
     private var seenEventListener: ListenerRegistration? = null
     private var timer: Timer? = null
-    fun sendMessage(chatMsg: String, receiverUid: String, context: Context): SingleLiveEvent<Boolean> {
+    fun sendMessage(chatMsg: String, receiverUid: String, context: Context, storyReplyImgLink: String): SingleLiveEvent<Boolean> {
         val event = SingleLiveEvent<Boolean>()
         //check if receiverUid exists in my friends collection
-        checkReceiverIsFriend(chatMsg, receiverUid, context, event)
+        checkReceiverIsFriend(chatMsg, receiverUid, context, event, storyReplyImgLink)
         return event
     }
 
-    private fun checkReceiverIsFriend(chatMsg: String, receiverUid: String, context: Context, event: SingleLiveEvent<Boolean>) {
+    private fun checkReceiverIsFriend(chatMsg: String, receiverUid: String, context: Context, event: SingleLiveEvent<Boolean>, storyReplyImgLink: String) {
         MyFirestoreDbRefs.getUidFriendsCollection(getCurrentUser()?.uid)
                 .document(receiverUid)
 
@@ -40,7 +40,7 @@ class MessagingActivityRepo : FcmMessagingService() {
                 .get().addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot.exists()) {
                         val chatKey = getMsgKey(receiverUid)
-                        sendMsgBatch(chatKey, receiverUid, getChatObject(chatMsg, receiverUid, chatKey), event)
+                        sendMsgBatch(chatKey, receiverUid, getChatObject(chatMsg, receiverUid, chatKey, storyReplyImgLink), event)
                     } else {
                         Toast.makeText(context, "You both are no longer friends", Toast.LENGTH_SHORT).show()
                     }
@@ -78,12 +78,13 @@ class MessagingActivityRepo : FcmMessagingService() {
                 .id
     }
 
-    private fun getChatObject(chatMsg: String, mReceiverUid: String, chatKey: String): Chat {
+    private fun getChatObject(chatMsg: String, mReceiverUid: String, chatKey: String, storyImgLinkReply: String): Chat {
         return Chat().apply {
             byUid = getCurrentUser()?.uid
             content = chatMsg
             msgKey = chatKey
             receiverUid = mReceiverUid
+            storyPhotoLink = storyImgLinkReply
         }
     }
 

@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Change Profile Pic"
+                    android:layout_marginTop="4dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary" />
 
@@ -77,6 +78,7 @@
                     android:id="@+id/remove_profile_pic_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:text="Remove Profile Pic" />
             </LinearLayout>
 
@@ -144,6 +146,7 @@
                         android:background="@drawable/edit_text_layout"
                         android:enabled="false"
                         android:layout_weight="5.3"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                         android:hint="Username"
                         android:maxLength="15" />
 

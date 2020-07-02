@@ -65,6 +65,7 @@ class CreateNewPostActivity : AppCompatActivity() {
 
     @OnClick(R.id.upload_camera_ib)
     fun onUploadCameraIbClicked() {
+        Toast.makeText(this, "Opening Gallery.....", Toast.LENGTH_SHORT).show()
         CropImage.activity().setAspectRatio(1, 1)
                 .start(this)
     }

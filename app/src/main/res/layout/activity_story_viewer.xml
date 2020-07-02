@@ -92,7 +92,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/story_guideline"
-        app:placeholderImage="@drawable/user_male_placeholder" />
+        app:placeholderImage="@drawable/ic_loading_gif" />
+
+    <LinearLayout
+        android:id="@+id/reply_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/story_guideline"
+        app:layout_constraintVertical_bias="0.97">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_reply" />
+
+        <TextView
+            android:id="@+id/reply_story_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reply"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/seen_eye_layout"

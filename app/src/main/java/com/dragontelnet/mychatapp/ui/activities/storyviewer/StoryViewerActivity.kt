@@ -17,8 +17,10 @@ import butterknife.OnClick
 import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.Story
 import com.dragontelnet.mychatapp.model.entity.StoryItem
+import com.dragontelnet.mychatapp.ui.activities.messaging.viewmodel.MessagingViewModel
 import com.dragontelnet.mychatapp.ui.fragments.story.view.SeenListBottomFragment
 import com.dragontelnet.mychatapp.ui.fragments.story.view.SeenListBottomFragment.BottomFragmentSheetListener
+import com.dragontelnet.mychatapp.ui.fragments.story.view.StoryReplyBottomFragment
 import com.dragontelnet.mychatapp.utils.StoryImgControllerListener
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser.getCurrentUser
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -26,8 +28,9 @@ import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import jp.shts.android.storiesprogressview.StoriesProgressView
 import jp.shts.android.storiesprogressview.StoriesProgressView.StoriesListener
+import kotlinx.android.synthetic.main.activity_story_viewer.*
 
-class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragmentSheetListener {
+class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragmentSheetListener, StoryReplyBottomFragment.StoryReplyBottomSheetListener {
 
     @BindView(R.id.story_progress)
     lateinit var storiesProgressView: StoriesProgressView
@@ -56,25 +59,29 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
     @BindView(R.id.seen_count_tv)
     lateinit var seenCountTv: TextView
 
-    private var storyList: List<StoryItem>? = null
     private var count = 0
     private var pressTime = 0L
     private val limit = 500L
     private var story: Story? = null
     private var sheet: SeenListBottomFragment? = null
     private var mViewModel: StoryViewerActivityViewModel? = null
+    private var messagingViewModel: MessagingViewModel? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_story_viewer)
         ButterKnife.bind(this)
         mViewModel = ViewModelProvider(this).get(StoryViewerActivityViewModel::class.java)
+        messagingViewModel = ViewModelProvider(this).get(MessagingViewModel::class.java)
         //getting story obj from previous story fragment
         story = intent.getSerializableExtra("story") as Story
         sheet = SeenListBottomFragment()
         if (story?.byUid == getCurrentUser()?.uid) {
             seenEyeLayout.visibility = View.VISIBLE
+            reply_layout.visibility = View.GONE
         } else {
             seenEyeLayout.visibility = View.GONE
+            reply_layout.visibility = View.VISIBLE
         }
         initStoryUi()
 
@@ -106,6 +113,18 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
         storyItem?.let { storyItemNN ->
             storyPhoto.controller = story?.byUid?.let { storyUid -> getController(storyItemNN, storyUid, storyItemNN.timeStamp) }
             getStoryItemCount(storyItemNN)
+            setUpStoryReplyListener(storyItemNN)
+        }
+
+    }
+
+    private fun setUpStoryReplyListener(storyItem: StoryItem) {
+        reply_layout.setOnClickListener {
+            val replySheet = StoryReplyBottomFragment(messagingViewModel, story?.byUid!!, this)
+            val bundle = Bundle()
+            bundle.putSerializable(STORY_ITEM_INTENT_KEY, storyItem)
+            replySheet.arguments = bundle
+            replySheet.show(supportFragmentManager, StoryReplyBottomFragment::class.java.simpleName)
         }
     }
 
@@ -133,9 +152,9 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
                 } else {
                     seenEyeLayout.setOnClickListener {
                         val bundle = Bundle()
-                        bundle.putSerializable(STORY_ITEM_KEY, storyItem)
+                        bundle.putSerializable(STORY_ITEM_INTENT_KEY, storyItem)
                         sheet?.arguments = bundle
-                        sheet?.show(supportFragmentManager, "seenListBottomSheet")
+                        sheet?.show(supportFragmentManager, SeenListBottomFragment::class.java.simpleName)
                     }
                 }
                 seenCountTv.text = count
@@ -147,12 +166,13 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
         return Fresco.newDraweeControllerBuilder()
                 .setControllerListener(StoryImgControllerListener(storyByUid, timeStamp))
                 .setUri(storyItem.imageUrl)
+                .setAutoPlayAnimations(true)
                 .build()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setTouchListeners() {
-        val onTouchListener = OnTouchListener { v, motionEvent ->
+        val onTouchListener = OnTouchListener { _, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 //button pressed
                 pressTime = System.currentTimeMillis()
@@ -180,7 +200,9 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
                 dateTimeTv.text = storyItemNonNull.date + " " + storyItemNonNull.time
                 Log.d(TAG, "onNext: starting sheet opening listeners")
             }
+            setUpStoryReplyListener(storyItemNonNull)
         }
+
     }
 
     override fun onPrev() {
@@ -191,7 +213,10 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
             storyPhoto.controller = story?.byUid?.let { getController(storyItem, it, storyItem.timeStamp) }
             //fullNameTv.setText(MySharedPrefs.getCurrentOfflineUser().getName());
             dateTimeTv.text = storyItem.date + " " + storyItem.time
+
+            setUpStoryReplyListener(storyItem)
         }
+
     }
 
     override fun onComplete() {
@@ -216,8 +241,17 @@ class StoryViewerActivity : AppCompatActivity(), StoriesListener, BottomFragment
         storiesProgressView.pause()
     }
 
+    override fun onStoryReplySheetDismiss() {
+        storiesProgressView.resume()
+
+    }
+
+    override fun onStoryReplySheetShown() {
+        storiesProgressView.pause()
+    }
+
     companion object {
         private const val TAG = "StoryViewerActivity"
-        const val STORY_ITEM_KEY = "storyItem"
+        const val STORY_ITEM_INTENT_KEY = "storyItem"
     }
 }

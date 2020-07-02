@@ -16,26 +16,23 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import java.util.concurrent.TimeUnit
 
-class VerificationActivityRepo //private String mVerificationId="";
-(private val context: Context) {
+class VerificationActivityRepo(private val context: Context) {
     val verfId = SingleLiveEvent<String>()
     private val userLiveEvent = SingleLiveEvent<FirebaseUser>()
     private var mCallbacks: OnVerificationStateChangedCallbacks? = null
     private var mResendToken: ForceResendingToken? = null
+
+    //private String mVerificationId="";
     fun isVerified(phoneNumber: String, activity: Activity): SingleLiveEvent<FirebaseUser> {
-        Log.d(TAG, "isVerified: in")
         mCallbacks = object : OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                Log.d(TAG, "onVerificationCompleted: in")
                 signInWithPhoneAuthCredential(credential, activity)
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
                 if (e is FirebaseAuthInvalidCredentialsException) {
-                    Log.d(TAG, "onVerificationFailed: " + e.message)
                     Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
                 } else if (e is FirebaseTooManyRequestsException) {
-                    Log.d(TAG, "onVerificationFailed: " + e.message)
                     Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
                 }
             }
@@ -45,7 +42,6 @@ class VerificationActivityRepo //private String mVerificationId="";
                 Log.d(TAG, "onCodeSent:$verificationId")
                 Toast.makeText(context, "Code sent", Toast.LENGTH_SHORT).show()
                 mResendToken = token
-
                 // mVerificationId=verificationId;
                 verfId.value = verificationId
             }
@@ -108,7 +104,7 @@ class VerificationActivityRepo //private String mVerificationId="";
     fun resendOtp(phoneNumber: String, activity: Activity?): SingleLiveEvent<FirebaseUser> {
         if (mCallbacks != null && mResendToken != null) {
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    "+1$phoneNumber",  // Phone number to verify
+                    "+91$phoneNumber",  // Phone number to verify
                     30,  // Timeout duration
                     TimeUnit.SECONDS,  // Unit of timeout
                     activity!!,  // Activity (for callback binding)
@@ -122,7 +118,7 @@ class VerificationActivityRepo //private String mVerificationId="";
 
     private fun sendOtp(phoneNumber: String, activity: Activity, mCallbacks: OnVerificationStateChangedCallbacks?) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                "+1$phoneNumber",  // Phone number to verify
+                "+91$phoneNumber",  // Phone number to verify
                 30,  // Timeout duration
                 TimeUnit.SECONDS,  // Unit of timeout
                 activity,  // Activity (for callback binding)

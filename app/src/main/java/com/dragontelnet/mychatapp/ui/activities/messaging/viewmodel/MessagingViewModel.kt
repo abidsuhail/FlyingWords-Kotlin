@@ -9,7 +9,9 @@ import com.google.firebase.firestore.Query
 
 class MessagingViewModel : ViewModel() {
     private val repo = MessagingActivityRepo()
-    fun sendMessage(chatMsg: String, uid: String, context: Context): LiveData<Boolean> = repo.sendMessage(chatMsg, uid, context)
+
+    fun getUser(userUid: String): LiveData<User> = repo.getUser(userUid)
+    fun sendMessage(chatMsg: String, uid: String, context: Context, storyReplyLink: String?): LiveData<Boolean> = repo.sendMessage(chatMsg, uid, context, storyReplyLink!!)
 
     fun notifyOnSentLastMsg(receiverUid: String, context: Context): LiveData<Int> = repo.notifyOnSentLastMsg(receiverUid, context)
 

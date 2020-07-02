@@ -55,7 +55,10 @@ class MessagingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_messaging)
         ButterKnife.bind(this)
         mViewModel = ViewModelProvider(this).get(MessagingViewModel::class.java)
+        setUpChatUserProfileImage(getChatUser()!!)
+
         initUi()
+
         addEtTextChangedListener()
 
         getChatUser()?.uid?.let {
@@ -127,7 +130,7 @@ class MessagingActivity : AppCompatActivity() {
         val options = FirestoreRecyclerOptions.Builder<Chat>()
                 .setQuery(query.orderBy(MyConstants.FirestoreKeys.TIMESTAMP), Chat::class.java)
                 .build()
-        adapter = MessagesAdapter(options)
+        adapter = MessagesAdapter(options, getChatUser())
         privateMessagesRv.adapter = adapter
 
         checkMessagesEmptiness(query)
@@ -163,8 +166,12 @@ class MessagingActivity : AppCompatActivity() {
 
         mViewModel?.isChatUserIsFriend(receiverUid)?.observe(this, Observer { isExists ->
             if (isExists) {
+
+                //is friend
                 fetchChatUserLiveDetails(receiverUid)
             } else {
+
+                //is not friend
                 setUpChatUserProfileImage(getChatUser()!!)
             }
         })
@@ -176,6 +183,7 @@ class MessagingActivity : AppCompatActivity() {
     }
 
     private fun fetchChatUserLiveDetails(receiverUid: String) {
+
         mViewModel?.getLiveChatUserDetails(receiverUid, this)?.observe(this,
                 Observer { user: User ->
                     when (user.status) {
@@ -193,8 +201,6 @@ class MessagingActivity : AppCompatActivity() {
                             toolbar_status.text = user.date + " " + user.time
                         }
                     }
-
-                    setUpChatUserProfileImage(user)
 
                 })
     }
@@ -220,7 +226,7 @@ class MessagingActivity : AppCompatActivity() {
             chatMsg?.trim()?.let { chatMsg ->
                 if (chatMsg.isNotBlank()) {
                     privateMsgContentEt.setText("")
-                    mViewModel?.sendMessage(chatMsg, uid, this)
+                    mViewModel?.sendMessage(chatMsg, uid, this, "")
                             ?.observe(this, Observer { isChatSent ->
                                 if (isChatSent) {
                                     //now send notification

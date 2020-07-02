@@ -94,19 +94,16 @@
         android:padding="3dp"
         tools:text="Hey there!!,using flying words" />
 
-    <TextView
-        android:id="@+id/see_all_friends_tv"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/see_all_friends_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textColor="@color/colorPrimary"
         tools:text="Friends(5)"
-        android:padding="6dp"
-        android:textStyle="bold"
+        android:text="Friends : __"
+        android:enabled="false"
         app:layout_constraintTop_toBottomOf="@id/user_bio"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -114,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/buttons_layout"
-        app:layout_constraintTop_toBottomOf="@+id/see_all_friends_tv">
+        app:layout_constraintTop_toBottomOf="@+id/see_all_friends_btn">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_profile_btn"
@@ -123,7 +120,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:layout_margin="3dp"
+            android:layout_margin="2dp"
             android:text="Edit Profile"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -136,12 +133,12 @@
             android:theme="@style/AcceptButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="4dp"
             android:text="Accept"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/decline_req_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/decline_req_btn"
+            app:layout_constraintEnd_toStartOf="@+id/decline_req_btn"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -179,12 +176,12 @@
             android:theme="@style/CancelButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="4dp"
             android:text="Decline"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/accept_request_btn"
-            app:layout_constraintEnd_toStartOf="@+id/accept_request_btn"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/accept_request_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
@@ -232,7 +229,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/my_feeds_swipe_refresh"
-        app:layout_constraintTop_toBottomOf="@+id/see_all_friends_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/see_all_friends_btn" />
 
     <TextView
         android:id="@+id/posts_hidden_tv"
@@ -246,7 +243,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/my_feeds_swipe_refresh"
-        app:layout_constraintTop_toBottomOf="@+id/see_all_friends_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/see_all_friends_btn" />
 
     <LinearLayout
         android:id="@+id/divider"

@@ -9,6 +9,7 @@ import com.dragontelnet.mychatapp.R
 import com.dragontelnet.mychatapp.model.entity.Post
 import com.dragontelnet.mychatapp.model.entity.PostNotification
 import com.dragontelnet.mychatapp.ui.activities.postdetailsview.PostDetailsViewActivity
+import com.dragontelnet.mychatapp.ui.activities.profile.view.ProfileActivity
 import com.dragontelnet.mychatapp.ui.fragments.notifications.view.NotificationsFragment
 import com.dragontelnet.mychatapp.utils.auth.CurrentUser
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
@@ -36,6 +37,12 @@ class NotificationsListAdapter(private var notifsList: MutableList<PostNotificat
         holder.bindNotifUserDetails(holder, notification)
 
 
+        holder.notifCaption.setOnClickListener {
+            notification.notifOwnerUser?.let { user ->
+                val i = Intent(notificationsFragment.context, ProfileActivity::class.java).apply { putExtra("user", user) }
+                notificationsFragment.startActivity(i)
+            }
+        }
 
         holder.itemView.setOnClickListener {
             val i = Intent(notificationsFragment.context, PostDetailsViewActivity::class.java)
@@ -43,6 +50,8 @@ class NotificationsListAdapter(private var notifsList: MutableList<PostNotificat
 
             //post is null when post is deleted by post owner
             post?.let { postNonNull ->
+
+                //sending data of post owner to post owner activity
                 postNonNull.postOwnerName = notification.postOwnerName
                 postNonNull.postOwnerProfilePic = notification.postOwnerProfilePic
                 i.putExtra("post", postNonNull)

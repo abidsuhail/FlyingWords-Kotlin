@@ -22,12 +22,15 @@ import com.dragontelnet.mychatapp.ui.activities.commentsviewer.adapter.AllCommen
 import com.dragontelnet.mychatapp.ui.activities.commentsviewer.adapter.viewholder.CommentVH
 import com.dragontelnet.mychatapp.ui.activities.commentsviewer.viewmodel.CommentsViewerViewModel
 import com.dragontelnet.mychatapp.utils.MyConstants.FirestoreKeys
+import com.dragontelnet.mychatapp.utils.UserProfileDetailsSetter
 import com.dragontelnet.mychatapp.utils.firestore.MyFirestoreDbRefs
 import com.facebook.drawee.view.SimpleDraweeView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
+import kotlinx.android.synthetic.main.activity_comments_viewer.*
 import kotlinx.android.synthetic.main.content_comments_viewer.*
+import kotlinx.android.synthetic.main.post_top_include.*
 
 class CommentsViewerActivity : AppCompatActivity() {
     @BindView(R.id.post_photo)
@@ -53,12 +56,29 @@ class CommentsViewerActivity : AppCompatActivity() {
         mViewModel = ViewModelProvider(this).get(CommentsViewerViewModel::class.java)
         commentContentEt.requestFocus()
 
-        displayPostPic()
+        initPostDetails()
         populateComments()
     }
 
-    private fun displayPostPic() {
-        getIntentPostObj()?.let { post -> postPhoto.setImageURI(post.postPhotoUrl) }
+    private fun initPostDetails() {
+        getIntentPostObj()?.let { post ->
+
+            post_date_time_tv.text = post.dateTime?.date + " " + post.dateTime?.time
+
+            mViewModel?.getUser(post.byUid)?.observe(this, Observer { user ->
+                UserProfileDetailsSetter.setAllUserDetails(user = user, nameTv = user_full_name, sdv = user_profile_pic)
+            })
+            if (post.postPhotoUrl != "") {
+                postPhoto.setImageURI(post.postPhotoUrl)
+                post_text_caption.visibility = View.GONE
+                postPhoto.visibility = View.VISIBLE
+            } else {
+                post_text_caption.text = post.caption
+                post_text_caption.visibility = View.VISIBLE
+                postPhoto.visibility = View.GONE
+            }
+
+        }
     }
 
     private fun getIntentPostObj(): Post? {
